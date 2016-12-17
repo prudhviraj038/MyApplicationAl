@@ -85,10 +85,16 @@ public class HomeProfile extends Fragment {
         image.add(R.drawable.banner3);
         image.add(R.drawable.timeline);
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
+                PostDetailPageFragment postDetailPageFragment = new PostDetailPageFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("post",postsfrom_api.get(position));
+                postDetailPageFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.fragment,postDetailPageFragment).commit();
+                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
             }
         });
         get_posts();
@@ -124,6 +130,7 @@ public class HomeProfile extends Fragment {
                             homeProfileAdapter = new HomeProfileAdapter(getActivity(),postsfrom_api,HomeProfile.this);
                             listView.setAdapter(homeProfileAdapter);
 
+
                            // homeProfileAdapter.notifyDataSetChanged();
 
                         }
@@ -134,8 +141,6 @@ public class HomeProfile extends Fragment {
 
 
     public void go_to_user_profile(String member_id){
-
-
         mCallback.onUserSelected(member_id);
 
     }

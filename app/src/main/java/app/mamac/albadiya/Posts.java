@@ -4,13 +4,14 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 
+import java.io.Serializable;
 
 
 /**
  * Created by T on 26-11-2016.
  */
 
-public class Posts {
+public class Posts implements Serializable{
 
     public String id,title,title_ar,image,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name;
 

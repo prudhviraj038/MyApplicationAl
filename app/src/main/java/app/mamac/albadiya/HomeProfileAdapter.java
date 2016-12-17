@@ -96,7 +96,7 @@ public class HomeProfileAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View item_view = inflater.inflate(R.layout.home_fragment,null);
+        final  View item_view = inflater.inflate(R.layout.home_fragment,null);
         TextView  item_title  = (TextView) item_view.findViewById(R.id.item_title);
         TextView  description = (TextView) item_view.findViewById(R.id.description);
         final TextView  no_of_likes = (TextView) item_view.findViewById(R.id.no_of_likes);
@@ -123,6 +123,8 @@ public class HomeProfileAdapter extends BaseAdapter {
                 .intoImageView(user_image);
 
         Picasso.with(context).load(posts.get(position).user_image).into(user_image);
+
+        no_of_views.setText(posts.get(position).total_views);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
