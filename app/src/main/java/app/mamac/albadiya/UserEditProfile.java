@@ -124,7 +124,7 @@ public class UserEditProfile extends Activity {
                         Ion.with(UserEditProfile.this)
                                 .load(jsonObject.get("image").getAsString())
                                 .withBitmap()
-                                .placeholder(R.drawable.amazon)
+                                .placeholder(R.drawable.ic_profile)
                                 .intoImageView(item_image);
 
 
