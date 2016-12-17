@@ -113,7 +113,7 @@ public class HomeProfileAdapter extends BaseAdapter {
         Ion.with(context)
                 .load(posts.get(position).image)
                 .withBitmap()
-                .placeholder(R.drawable.amazon)
+                .placeholder(R.drawable.placeholder)
                 .intoImageView(item_image);
 
         Ion.with(context)
