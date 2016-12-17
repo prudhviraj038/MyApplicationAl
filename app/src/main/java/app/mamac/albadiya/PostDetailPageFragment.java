@@ -46,7 +46,7 @@ public class PostDetailPageFragment extends Fragment{
         Ion.with(getActivity())
                 .load(posts.image)
                 .withBitmap()
-                .placeholder(R.drawable.ic_profile)
+                .placeholder(R.drawable.placeholder)
                 .intoImageView(item_image);
         description.setText(posts.description);
         no_of_likes.setText(posts.total_likes);
