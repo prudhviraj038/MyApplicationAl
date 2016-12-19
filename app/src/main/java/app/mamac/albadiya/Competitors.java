@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Competitors implements Serializable{
 
-    public String id,title,title_ar,description,description_ar,end_date,images;
+    public String id,title,title_ar,description,description_ar,end_date,images,image;
 
     public Competitors(JsonObject jsonObject, Context context){
         id             = jsonObject.get("id").getAsString();
@@ -21,6 +21,7 @@ public class Competitors implements Serializable{
         description    = jsonObject.get("description").getAsString();
         description_ar = jsonObject.get("description_ar").getAsString();
         end_date       = jsonObject.get("end_date").getAsString();
+        image = jsonObject.get("image").getAsString();
 
 
     }
