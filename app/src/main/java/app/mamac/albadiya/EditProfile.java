@@ -37,7 +37,7 @@ public class EditProfile extends Fragment {
     TextView no_posts,no_of_followers,no_of_following;
     String member_id;
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.activity_editprofile,container,false);
 
         if(getArguments()!=null && getArguments().containsKey("member_id"))
@@ -52,7 +52,6 @@ public class EditProfile extends Fragment {
             edit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent intent = new Intent(getActivity(),UserEditProfile.class);
                     startActivity(intent);
 
@@ -60,9 +59,7 @@ public class EditProfile extends Fragment {
             });
         }
         else{
-
             edit_btn.setText("Follow");
-
         }
 
         backbtn = (ImageView) view.findViewById(R.id.back_btn);
