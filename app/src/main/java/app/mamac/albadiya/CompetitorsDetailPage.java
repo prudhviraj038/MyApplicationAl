@@ -1,14 +1,23 @@
 package app.mamac.albadiya;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -17,20 +26,44 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class CompetitorsDetailPage extends Fragment {
-    CircleImageView user_image;
-    TextView item_title;
+    GridView gridView;
+    CompetitorDetailPageAdapter competitorDetailPageAdapter;
+    ImageView back_btn;
+    TextView item_name;
     ImageView item_image;
-    TextView description;
-    Competitors competitors;
+    TextView end_date;
+    TextView participants;
+    ArrayList<Competitors> competitersfrom_api;
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(final LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.competitors_detail_page,container,false);
-        CircleImageView user_image = (CircleImageView) view.findViewById(R.id.user_image);
-        TextView    item_title  = (TextView) view.findViewById(R.id.item_title);
-        ImageView   item_image  = (ImageView) view.findViewById(R.id.item_image);
-        TextView    description = (TextView) view.findViewById(R.id.description);
+        gridView = (GridView) view.findViewById(R.id.gallery_images);
+        competitersfrom_api = new ArrayList<>();
 
-        competitors = (Competitors) getArguments().getSerializable("competitor");
+        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(getActivity(),competitersfrom_api);
+        gridView.setAdapter(competitorDetailPageAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        get_competitors_items();
         return view;
+    }
+
+
+    private void get_competitors_items(){
+        Ion.with(getActivity())
+                .load(Settings.SERVER_URL +"conpetitions.php")
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        JsonObject jsonObject = result.get(0).getAsJsonObject();
+                        item_name.setText(jsonObject.get("titile").getAsString());
+
+                    }
+                });
     }
 }

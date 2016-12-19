@@ -26,7 +26,7 @@ public class Competitors implements Serializable{
         description_ar = jsonObject.get("description_ar").getAsString();
         end_date       = jsonObject.get("end_date").getAsString();
         image = jsonObject.get("image").getAsString();
-
+        images = new ArrayList<>();
         for(int i=0;i<jsonObject.get("images").getAsJsonArray().size();i++){
 
             Images comp_image = new Images(jsonObject.get("images").getAsJsonArray().get(i).getAsJsonObject(),context);

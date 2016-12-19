@@ -73,18 +73,13 @@ public class InstaContestants extends Fragment {
     }
 
     public void get_competitors(){
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait..");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
         Ion.with(this)
                 .load(Settings.SERVER_URL+"competitions.php")
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
-                        if (progressDialog!=null)
-                            progressDialog.dismiss();
+
                         if (e != null) {
                             e.printStackTrace();
                         } else {
