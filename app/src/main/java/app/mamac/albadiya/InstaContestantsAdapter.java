@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,20 +21,22 @@ import java.util.ArrayList;
 public class InstaContestantsAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
-    ArrayList<Integer> mimages;
-    ArrayList<String>  mnames;
-    ArrayList<String>  mcomments;
+//    ArrayList<Integer> mimages;
+//    ArrayList<String>  mnames;
+//    ArrayList<String>  mcomments;
+    ArrayList<Competitors> competitors;
 
-    public   InstaContestantsAdapter(Context context,ArrayList<Integer> images,ArrayList<String> names,ArrayList<String> comments){
+    public   InstaContestantsAdapter(Context context,ArrayList<Competitors> competitors){
         this.context = context;
-        mimages = images;
-        mnames  = names;
-        mcomments = comments;
+        this.competitors =  competitors;
+//        mimages = images;
+//        mnames  = names;
+//        mcomments = comments;
         inflater = LayoutInflater.from(context);
     }
     @Override
     public int getCount() {
-        return mnames.size();
+        return competitors.size();
     }
 
     @Override
@@ -50,10 +54,12 @@ public class InstaContestantsAdapter extends BaseAdapter {
         View item_view = inflater.inflate(R.layout.insta_contestants,null);
         ImageView item_image = (ImageView) item_view.findViewById(R.id.item_image);
         TextView  item_name  = (TextView) item_view.findViewById(R.id.item_name);
-        TextView  name       = (TextView) item_view.findViewById(R.id.name);
-        item_image.setImageResource(mimages.get(position));
-        item_name.setText(mnames.get(position));
-        name.setText(mcomments.get(position));
+        item_name.setText(competitors.get(position).title);
+        Ion.with(context)
+                .load(competitors.get(position).image)
+                .withBitmap()
+                .placeholder(R.drawable.ic_profile)
+                .intoImageView(item_image);
         return item_view;
     }
 }

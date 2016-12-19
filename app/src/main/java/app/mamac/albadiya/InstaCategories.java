@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -16,77 +17,49 @@ import android.widget.TextView;
  */
 
 public class InstaCategories extends Fragment {
-    TextView contestants,subscribe,results,news;
-    FrameLayout cat_fragment;
+    ImageView contestants_icon,likes_icon;
+    FrameLayout fragment_category;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.insta_categories,container,false);
-        contestants    = (TextView) view.findViewById(R.id.contestants);
-        subscribe      = (TextView) view.findViewById(R.id.subscribe);
-        results        = (TextView) view.findViewById(R.id.results);
-        news           = (TextView) view.findViewById(R.id.news);
-        cat_fragment   = (FrameLayout) view.findViewById(R.id.cat_fragment);
+        contestants_icon = (ImageView) view.findViewById(R.id.contestants_icon);
+        likes_icon    = (ImageView) view.findViewById(R.id.likes_icon);
+        fragment_category = (FrameLayout) view.findViewById(R.id.fragment_category);
 
-        contestants.setBackgroundColor(Color.parseColor("#ffffff"));
-        subscribe.setBackgroundColor(Color.parseColor("#f6ef98"));
-        results.setBackgroundColor(Color.parseColor("#f6ef98"));
-        news.setBackgroundColor(Color.parseColor("#f6ef98"));
-        InstaContestants instaContestants = new InstaContestants();
-        getFragmentManager().beginTransaction().replace(R.id.cat_fragment,instaContestants).commit();
+        contestants_icon.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               reset_icons(1);
+               CategoryFragment categoryFragment = new CategoryFragment();
+               getFragmentManager().beginTransaction().replace(R.id.fragment_category,categoryFragment).commit();
+           }
+       });
 
-        contestants.setOnClickListener(new View.OnClickListener() {
-
+        likes_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contestants.setBackgroundColor(Color.parseColor("#ffffff"));
-                subscribe.setBackgroundColor(Color.parseColor("#f6ef98"));
-                results.setBackgroundColor(Color.parseColor("#f6ef98"));
-                news.setBackgroundColor(Color.parseColor("#f6ef98"));
-                InstaContestants instaContestants = new InstaContestants();
-                getFragmentManager().beginTransaction().replace(R.id.cat_fragment,instaContestants).commit();
-            }
-
-        });
-
-        subscribe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contestants.setBackgroundColor(Color.parseColor("#f6ef98"));
-                subscribe.setBackgroundColor(Color.parseColor("#ffffff"));
-                results.setBackgroundColor(Color.parseColor("#f6ef98"));
-                news.setBackgroundColor(Color.parseColor("#f6ef98"));
-                InstaSubscribe instaSubscribe = new InstaSubscribe();
-                getFragmentManager().beginTransaction().replace(R.id.cat_fragment,instaSubscribe).commit();
+                reset_icons(2);
+                LikeFragment likeFragment = new LikeFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_category,likeFragment).commit();
             }
         });
-
-        results.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contestants.setBackgroundColor(Color.parseColor("#f6ef98"));
-                subscribe.setBackgroundColor(Color.parseColor("#f6ef98"));
-                results.setBackgroundColor(Color.parseColor("#ffffff"));
-                news.setBackgroundColor(Color.parseColor("#f6ef98"));
-                InstaResults instaResults = new InstaResults();
-                getFragmentManager().beginTransaction().replace(R.id.cat_fragment,instaResults).commit();
-            }
-        });
-
-        news.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                contestants.setBackgroundColor(Color.parseColor("#f6ef98"));
-                subscribe.setBackgroundColor(Color.parseColor("#f6ef98"));
-                results.setBackgroundColor(Color.parseColor("#f6ef98"));
-                news.setBackgroundColor(Color.parseColor("#ffffff"));
-                InstaNews instaNews = new InstaNews();
-                getFragmentManager().beginTransaction().replace(R.id.cat_fragment,instaNews).commit();
-            }
-        });
-
         return view;
-
-
     }
+
+    private void reset_icons(int pos){
+        contestants_icon.setImageResource(R.drawable.ic_contest_in);
+        likes_icon.setImageResource(R.drawable.ic_likes_in);
+
+        switch (pos){
+            case 1:
+                contestants_icon.setImageResource(R.drawable.ic_contests);
+                break;
+            case 2:
+                likes_icon.setImageResource(R.drawable.ic_likes);
+                break;
+        }
+    }
+
+
 }

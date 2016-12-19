@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,10 @@ public class LoginActivity extends Activity {
            public void onClick(View v) {
                String email_string = email.getText().toString();
                String password_string = password.getText().toString();
+               final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+               progressDialog.setMessage("please wait...");
+               progressDialog.setCancelable(false);
+               progressDialog.show();
                if (email_string.equals("")){
                    Toast.makeText(LoginActivity.this,"please enter email",Toast.LENGTH_SHORT).show();
                }else if (password_string.equals("")){
@@ -47,8 +52,9 @@ public class LoginActivity extends Activity {
                            .setCallback(new FutureCallback<JsonObject>() {
                                @Override
                                public void onCompleted(Exception e, JsonObject result) {
+                                   if (progressDialog!=null)
+                                       progressDialog.dismiss();
                                    if (result.get("status").getAsString().equals("Success")){
-
                                        Settings.SetUserId(LoginActivity.this,result.get("member_id").getAsString());
                                        Toast.makeText(LoginActivity.this,result.get("name").getAsString(),Toast.LENGTH_SHORT).show();
                                        Intent intent = new Intent(LoginActivity.this,InstaFragment.class);

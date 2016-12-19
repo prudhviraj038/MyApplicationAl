@@ -1,7 +1,9 @@
 package app.mamac.albadiya;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.gson.JsonArray;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
@@ -23,6 +28,7 @@ public class InstaContestants extends Fragment {
     ArrayList<Integer> images;
     ArrayList<String>  names;
     ArrayList<String>  comments;
+    ArrayList<Competitors> competitorsfrom_api;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -32,6 +38,7 @@ public class InstaContestants extends Fragment {
         images   = new ArrayList<>();
         names    = new ArrayList<>();
         comments = new ArrayList<>();
+        competitorsfrom_api = new ArrayList<>();
 
         images.add(R.drawable.yellowsoft);
         images.add(R.drawable.housejoy);
@@ -48,14 +55,50 @@ public class InstaContestants extends Fragment {
         comments.add("Yahoo");
         comments.add("Amazon");
 
-        instaContestantsAdapter = new InstaContestantsAdapter(getActivity(),images,names,comments);
+        instaContestantsAdapter = new InstaContestantsAdapter(getActivity(),competitorsfrom_api);
         listView.setAdapter(instaContestantsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),names.get(position),Toast.LENGTH_SHORT).show();
+                CompetitorsDetailPage competitorsDetailPage = new CompetitorsDetailPage();
+                Bundle bundle =new Bundle();
+                bundle.putSerializable("competitors",competitorsfrom_api.get(position));
+                competitorsDetailPage.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_contest,competitorsDetailPage).commit();
+                //Toast.makeText(getActivity(),names.get(position),Toast.LENGTH_SHORT).show();
             }
         });
+        get_competitors();
         return view;
+    }
+
+    public void get_competitors(){
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        Ion.with(this)
+                .load(Settings.SERVER_URL+"competitions.php")
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if (progressDialog!=null)
+                            progressDialog.dismiss();
+                        if (e != null) {
+                            e.printStackTrace();
+                        } else {
+                            Log.e("response", String.valueOf(result.size()));
+                            for (int i = 0; i < result.size(); i++) {
+                                Competitors competitors = new Competitors(result.get(i).getAsJsonObject(), getActivity());
+                                competitorsfrom_api.add(competitors);
+                            }
+
+                            instaContestantsAdapter.notifyDataSetChanged();
+
+                        }
+
+                    }
+                });
     }
 }
