@@ -17,7 +17,7 @@ public class Competitors implements Serializable{
 
     public String id,title,title_ar,description,description_ar,end_date,image;
     public ArrayList<Images> images;
-
+//fsfsdf
     public Competitors(JsonObject jsonObject, Context context){
         id             = jsonObject.get("id").getAsString();
         title          = jsonObject.get("title").getAsString();
