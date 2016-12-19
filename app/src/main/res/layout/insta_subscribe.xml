@@ -5,15 +5,56 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView46"
+            android:adjustViewBounds="true"
+            android:src="@drawable/add_photo" />
+
+        <TextView
+            android:text="Photo Description(70 character)....."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView49"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView52"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_circle"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:text="00:00"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textView65"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/placeholder"
-        android:id="@+id/imageView46" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView49" />
+        android:id="@+id/imageView37"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/add_btn" />
 </LinearLayout>
+
