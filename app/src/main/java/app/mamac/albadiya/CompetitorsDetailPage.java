@@ -67,7 +67,7 @@ public class CompetitorsDetailPage extends Activity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CompetitorsDetailPage.this,AddPost.class);
+                Intent intent = new Intent(CompetitorsDetailPage.this,CompetitorAddPost.class);
                 startActivity(intent);
             }
         });
