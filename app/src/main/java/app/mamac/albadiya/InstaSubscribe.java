@@ -6,16 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-
 /**
- * Created by T on 08-12-2016.
+ * Created by T on 20-12-2016.
  */
 
 public class InstaSubscribe extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        final View view = inflater.inflate(R.layout.insta_subscribe,container,false);
+        final View view = inflater.inflate(R.layout.subscribe_page,container,false);
         return view;
 
     }
