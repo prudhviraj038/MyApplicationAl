@@ -7,18 +7,20 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#e6d82e">
+        android:background="#e6d82e"
+        android:layout_height="40dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:id="@+id/back_btn"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:src="@drawable/back_btn" />
-    </LinearLayout>
+
+            <ImageView
+                android:layout_height="25dp"
+                android:id="@+id/back_btn"
+                android:layout_width="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/back_btn"
+                android:padding="2dp"
+                android:paddingLeft="5dp" />
+        </LinearLayout>
+
 
     <LinearLayout
         android:orientation="vertical"
