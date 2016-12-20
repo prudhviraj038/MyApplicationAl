@@ -39,14 +39,17 @@ public class CompetitorsDetailPage extends Activity {
     TextView participants;
     TextView add_btn;
     ArrayList<Competitors> competitersfrom_api;
-    Competitors competitors;
-    String comp_id="";
+    String comp_id;
+    String title;
+    String image;
+    String date;
+    String participant;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competitors_detail_page);
         gridView = (GridView) findViewById(R.id.gallery_images);
-        comp_id = getIntent().getStringExtra("id");
+
         competitersfrom_api = new ArrayList<>();
         competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api);
         gridView.setAdapter(competitorDetailPageAdapter);
@@ -56,8 +59,6 @@ public class CompetitorsDetailPage extends Activity {
 
             }
         });
-
-
 
         item_name = (TextView) findViewById(R.id.item_name);
         item_image = (ImageView) findViewById(R.id.item_image);
@@ -79,41 +80,21 @@ public class CompetitorsDetailPage extends Activity {
             }
         });
 
+       if (getIntent()!=null){
+           comp_id = getIntent().getStringExtra("id");
+           title = getIntent().getStringExtra("title");
+           item_name.setText(title);
+           date  = getIntent().getStringExtra("end_date");
+           end_date.setText(date);
+           image = getIntent().getStringExtra("image");
+           Ion.with(this)
+                   .load(image)
+                   .withBitmap()
+                   .placeholder(R.drawable.ic_profile)
+                   .intoImageView(item_image);
+           participant= getIntent().getStringExtra("participants");
+           participants.setText(participant);
 
-
-       get_competitors_data(comp_id);
+       }
     }
-
-     public void get_competitors_data(String comp_id){
-         final ProgressDialog progressDialog =  new ProgressDialog(this);
-         progressDialog.setMessage("please wait....");
-         progressDialog.setCancelable(false);
-         progressDialog.show();
-         Ion.with(this)
-                 .load(Settings.SERVER_URL + "competitions.php")
-                 .setBodyParameter("competition_id",comp_id)
-                 .asJsonArray()
-                 .setCallback(new FutureCallback<JsonArray>() {
-                     @Override
-                     public void onCompleted(Exception e, JsonArray result) {
-                         if (progressDialog!=null)
-                             progressDialog.dismiss();
-                          JsonObject jsonObject = result.get(0).getAsJsonObject();
-                             item_name.setText(String.valueOf(jsonObject.get("title").getAsString()));
-                             Ion.with(CompetitorsDetailPage.this)
-                                     .load(jsonObject.get("image").getAsString())
-                                     .withBitmap()
-                                     .placeholder(R.drawable.ic_profile)
-                                     .intoImageView(item_image);
-                             end_date.setText(jsonObject.get("end_date").getAsString());
-                             participants.setText(String.valueOf(jsonObject.get("images").getAsJsonArray().size()));
-                         }
-
-
-
-                 });
-     }
-
-
-
 }
