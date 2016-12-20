@@ -34,6 +34,7 @@ public class CompetitorsDetailPage extends Activity {
     ImageView item_image;
     TextView end_date;
     TextView participants;
+    TextView add_btn;
     ArrayList<Competitors> competitersfrom_api;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,7 +51,41 @@ public class CompetitorsDetailPage extends Activity {
             }
         });
 
+        item_name = (TextView) findViewById(R.id.item_name);
+        item_image = (ImageView) findViewById(R.id.item_image);
+        end_date  = (TextView) findViewById(R.id.end_date);
+        participants = (TextView) findViewById(R.id.participants);
+        add_btn   = (TextView) findViewById(R.id.add_btn);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        get_competitors_data();
     }
+
+     public void get_competitors_data(){
+         Ion.with(this)
+                 .load(Settings.SERVER_URL + "competitions.php")
+                 .asJsonArray()
+                 .setCallback(new FutureCallback<JsonArray>() {
+                     @Override
+                     public void onCompleted(Exception e, JsonArray result) {
+                         JsonObject jsonObject = result.get(0).getAsJsonObject();
+                         item_name.setText(jsonObject.get("title").getAsString());
+                         Ion.with(CompetitorsDetailPage.this)
+                                 .load(jsonObject.get("image").getAsString())
+                                 .withBitmap()
+                                 .placeholder(R.drawable.ic_profile)
+                                 .intoImageView(item_image);
+                         end_date.setText(jsonObject.get("end_date").getAsString());
+
+
+                     }
+                 });
+     }
+
 
 
 }
