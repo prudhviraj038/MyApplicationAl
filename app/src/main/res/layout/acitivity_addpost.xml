@@ -4,12 +4,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:text="Add Post"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/textView50"
-        android:gravity="center_vertical|center_horizontal" />
+        android:background="#e6d82e">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:id="@+id/imageView46"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:src="@drawable/back_btn" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +28,16 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:id="@+id/item_image"
+            android:src="@drawable/banner"
+            android:scaleType="centerCrop" />
 
         <EditText
             android:layout_width="match_parent"
@@ -26,9 +45,10 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/title"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="Title" />
+            android:layout_marginTop="5dp"
+            android:hint="Title"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -36,31 +56,20 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/descript"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:hint="Description" />
+            android:hint="Description"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_image"
-            android:padding="30dp"
-            android:src="@drawable/banner4"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true" />
-
-        <TextView
-            android:text="Submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/submit_btn"
-            android:padding="10dp"
-            android:gravity="center"
-            android:background="#f3ea54"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
     </LinearLayout>
 
     </ScrollView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/submit_btn"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/add_icon" />
 
 </LinearLayout>
