@@ -12,7 +12,7 @@
             android:text="your likes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView57"
+            android:id="@+id/no_of_likes"
             android:padding="10dp"
             android:gravity="center_vertical|center_horizontal" />
     </LinearLayout>
