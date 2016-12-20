@@ -110,7 +110,7 @@ public class HomeProfile extends Fragment {
         progressDialog.setCancelable(false);
         progressDialog.show();
         Ion.with(this)
-                .load("http://mamacgroup.com/albadiya/api/posts.php")
+                .load(Settings.SERVER_URL+"posts.php")
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
