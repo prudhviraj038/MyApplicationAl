@@ -1,5 +1,6 @@
 package app.mamac.albadiya;
 
+import android.app.Activity;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by T on 19-12-2016.
  */
 
-public class CompetitorsDetailPage extends Fragment {
+public class CompetitorsDetailPage extends Activity {
     GridView gridView;
     CompetitorDetailPageAdapter competitorDetailPageAdapter;
     ImageView back_btn;
@@ -35,12 +36,12 @@ public class CompetitorsDetailPage extends Fragment {
     TextView participants;
     ArrayList<Competitors> competitersfrom_api;
     @Override
-    public View onCreateView(final LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState){
-        final View view = inflater.inflate(R.layout.competitors_detail_page,container,false);
-        gridView = (GridView) view.findViewById(R.id.gallery_images);
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.competitors_detail_page);
+        gridView = (GridView) findViewById(R.id.gallery_images);
         competitersfrom_api = new ArrayList<>();
-
-        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(getActivity(),competitersfrom_api);
+        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api);
         gridView.setAdapter(competitorDetailPageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -48,22 +49,8 @@ public class CompetitorsDetailPage extends Fragment {
 
             }
         });
-        get_competitors_items();
-        return view;
+
     }
 
 
-    private void get_competitors_items(){
-        Ion.with(getActivity())
-                .load(Settings.SERVER_URL +"conpetitions.php")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        JsonObject jsonObject = result.get(0).getAsJsonObject();
-                        item_name.setText(jsonObject.get("titile").getAsString());
-
-                    }
-                });
-    }
 }

@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -60,12 +61,15 @@ public class InstaContestants extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CompetitorsDetailPage competitorsDetailPage = new CompetitorsDetailPage();
-                Bundle bundle =new Bundle();
-                bundle.putSerializable("competitors",competitorsfrom_api.get(position));
-                competitorsDetailPage.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_contest,competitorsDetailPage).commit();
+//                CompetitorsDetailPage competitorsDetailPage = new CompetitorsDetailPage();
+//                Bundle bundle =new Bundle();
+//                bundle.putSerializable("competitors",competitorsfrom_api.get(position));
+//                competitorsDetailPage.setArguments(bundle);
+//                getFragmentManager().beginTransaction().replace(R.id.fragment_contest,competitorsDetailPage).commit();
                 //Toast.makeText(getActivity(),names.get(position),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(),CompetitorsDetailPage.class);
+                intent.putExtra("competitors",competitorsfrom_api.get(position));
+                startActivity(intent);
             }
         });
         get_competitors();
