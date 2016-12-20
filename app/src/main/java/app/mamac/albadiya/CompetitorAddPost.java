@@ -104,8 +104,6 @@ public class CompetitorAddPost extends Activity {
                                     if(progressDialog!=null)
                                         progressDialog.dismiss();
                                    Toast.makeText(CompetitorAddPost.this,"Post added successfully",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(CompetitorAddPost.this,CompetitorsDetailPage.class);
-                                    startActivity(intent);
                                 }
                             });
                 }
