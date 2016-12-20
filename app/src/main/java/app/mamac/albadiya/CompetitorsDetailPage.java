@@ -80,8 +80,6 @@ public class CompetitorsDetailPage extends Activity {
                                  .placeholder(R.drawable.ic_profile)
                                  .intoImageView(item_image);
                          end_date.setText(jsonObject.get("end_date").getAsString());
-
-
                      }
                  });
      }
