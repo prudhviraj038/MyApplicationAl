@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,10 +57,18 @@ public class CompetitorsDetailPage extends Activity {
         end_date  = (TextView) findViewById(R.id.end_date);
         participants = (TextView) findViewById(R.id.participants);
         add_btn   = (TextView) findViewById(R.id.add_btn);
+        back_btn = (ImageView) findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CompetitorsDetailPage.this.onBackPressed();
+            }
+        });
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(CompetitorsDetailPage.this,AddPost.class);
+                startActivity(intent);
             }
         });
         get_competitors_data();

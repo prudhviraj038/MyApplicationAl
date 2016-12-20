@@ -39,7 +39,7 @@ public class AddPost extends Activity {
     EditText title;
     EditText descript;
     ImageView item_image;
-    TextView submit_btn;
+    ImageView submit_btn;
     @Override
    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class AddPost extends Activity {
                 show_images();
             }
         });
-        submit_btn = (TextView) findViewById(R.id.submit_btn);
+        submit_btn = (ImageView) findViewById(R.id.submit_btn);
         item_image = (ImageView) findViewById(R.id.item_image);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
