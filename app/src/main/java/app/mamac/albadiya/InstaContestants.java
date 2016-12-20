@@ -69,6 +69,8 @@ public class InstaContestants extends Fragment {
                 //Toast.makeText(getActivity(),names.get(position),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(),CompetitorsDetailPage.class);
                 intent.putExtra("competitors",competitorsfrom_api.get(position));
+                intent.putExtra("title",competitorsfrom_api.get(position).title);
+                intent.putExtra("id",competitorsfrom_api.get(position).id);
                 startActivity(intent);
             }
         });
@@ -77,12 +79,19 @@ public class InstaContestants extends Fragment {
     }
 
     public void get_competitors(){
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("please wait..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         Ion.with(this)
                 .load(Settings.SERVER_URL+"competitions.php")
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        if (progressDialog!=null)
+                            progressDialog.dismiss();
 
                         if (e != null) {
                             e.printStackTrace();

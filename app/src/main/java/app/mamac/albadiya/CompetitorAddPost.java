@@ -53,8 +53,7 @@ public class CompetitorAddPost extends Activity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CompetitorAddPost.this,CompetitorsDetailPage.class);
-                startActivity(intent);
+                CompetitorAddPost.this.onBackPressed();
             }
         });
 
