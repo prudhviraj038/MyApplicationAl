@@ -59,8 +59,6 @@ public class CompetitorAddPost extends Activity {
                 CompetitorAddPost.this.onBackPressed();
             }
         });
-        
-
 
 
          submit_btn.setOnClickListener(new View.OnClickListener() {
