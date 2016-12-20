@@ -65,6 +65,7 @@
         <activity android:name=".AddPost"></activity>
         <activity android:name=".UserEditProfile"></activity>
         <activity android:name=".CompetitorsDetailPage"></activity>
+        <activity android:name=".CompetitorAddPost"></activity>
     </application>
 
 </manifest>

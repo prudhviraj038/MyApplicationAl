@@ -38,7 +38,7 @@ public class CompetitorAddPost extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_post);
+        setContentView(R.layout.competitor_addpost);
         back_btn          = (ImageView) findViewById(R.id.back_btn);
         item_title        = (EditText) findViewById(R.id.item_title);
         item_description  = (EditText) findViewById(R.id.item_description);
