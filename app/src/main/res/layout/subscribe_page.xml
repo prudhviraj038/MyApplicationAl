@@ -13,9 +13,9 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/add_photo"
             android:id="@+id/imageView37"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:src="@drawable/add_photo" />
 
         <TextView
             android:text="Photo Description(70 Characters)....."
@@ -36,12 +36,12 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_circle"
                 android:id="@+id/imageView39"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_circle" />
 
             <TextView
-                android:text="TextView"
+                android:text="00:00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView49"
@@ -52,7 +52,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/add_icon"
         android:id="@+id/imageView44"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:src="@drawable/add_icon" />
 </LinearLayout>
