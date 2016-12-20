@@ -24,6 +24,7 @@ import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by T on 20-12-2016.
@@ -35,10 +36,12 @@ public class CompetitorAddPost extends Activity {
     EditText item_description;
     ImageView item_image;
     ImageView submit_btn;
-    @Override
+
+     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competitor_addpost);
+
         back_btn          = (ImageView) findViewById(R.id.back_btn);
         item_title        = (EditText) findViewById(R.id.item_title);
         item_description  = (EditText) findViewById(R.id.item_description);
@@ -56,40 +59,60 @@ public class CompetitorAddPost extends Activity {
                 CompetitorAddPost.this.onBackPressed();
             }
         });
+        
 
-        submit_btn.setOnClickListener(new View.OnClickListener() {
+
+
+         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String title_string = item_title.getText().toString();
                 String description_string = item_description.getText().toString();
+                //String competiton = comp_id.getText().toString();
                 if (title_string.equals("")){
-                    Toast.makeText(CompetitorAddPost.this,"please enter title",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CompetitorAddPost.this,"please add title",Toast.LENGTH_SHORT).show();
+                    item_title.requestFocus();
                 }else if (description_string.equals("")){
-                    Toast.makeText(CompetitorAddPost.this,"Please enter description",Toast.LENGTH_SHORT).show();
-                }else {
+                    Toast.makeText(CompetitorAddPost.this,"please add description",Toast.LENGTH_SHORT).show();
+                    item_description.requestFocus();
+                } else{
+                    final ProgressBar progressBar = new ProgressBar(CompetitorAddPost.this);
+                    final  ProgressDialog progressDialog = new ProgressDialog(CompetitorAddPost.this);
+                    progressDialog.setMessage("Please wait image is loading..");
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Ion.with(CompetitorAddPost.this)
-                            .load(Settings.SERVER_URL+"add-post.php")
-                            .setBodyParameter("member_id",Settings.GetUserId(CompetitorAddPost.this))
-                            .setBodyParameter("title",title_string)
-                            .setBodyParameter("description",description_string)
+                            .load(Settings.SERVER_URL + "add-competition-image-ios.php")
+                            .uploadProgressBar(progressBar)
+                            .uploadProgressHandler(new ProgressCallback() {
+                                @Override
+                                public void onProgress(long downloaded, long total) {
+                                    progressDialog.setMax((int) total);
+                                    progressDialog.setProgress((int) downloaded);
+                                }
+                            })
+                            .setMultipartParameter("member_id", Settings.GetUserId(CompetitorAddPost.this))
+                            .setMultipartParameter("competition_id","2")
+                            .setMultipartParameter("title", title_string)
+                            .setMultipartParameter("description", description_string)
+                            .setMultipartFile("file", "image/png", new File(selected_image_path))
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
-
-                                    if (result.get("status").getAsString().equals("Success")){
-                                        //   Toast.makeText(lawyerEditProfile.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                        if(selected_image_path.equals("")){
-                                            addpost_success();
-                                        }else {
-                                            upload_images(result.get("post_id").getAsString());
-                                        }
-                                    }else {
-                                        Toast.makeText(CompetitorAddPost.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                    }
+                                    if(progressDialog!=null)
+                                        progressDialog.dismiss();
+                                   Toast.makeText(CompetitorAddPost.this,"Post added successfully",Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(CompetitorAddPost.this,CompetitorsDetailPage.class);
+                                    startActivity(intent);
                                 }
                             });
                 }
+
+
             }
         });
 
@@ -149,47 +172,6 @@ public class CompetitorAddPost extends Activity {
         }
     }
 
-    public void upload_images(String post_id){
-        final ProgressBar progressBar = new ProgressBar(this);
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait image is loading..");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        Ion.with(this)
-                .load(Settings.SERVER_URL+"add-post-image-ios.php")
-                .uploadProgressBar(progressBar)
-                .uploadProgressHandler(new ProgressCallback() {
-                    @Override
-                    public void onProgress(long downloaded, long total) {
-                        progressDialog.setMax((int) total);
-                        progressDialog.setProgress((int) downloaded);
-                    }
-                })
-                .setMultipartParameter("post_id",post_id)
-                .setMultipartParameter("type","1")
-                .setMultipartFile("file","image/png",new File(selected_image_path))
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if (progressDialog!=null)
-                            progressDialog.dismiss();
-                        if (e!=null){
-                            e.printStackTrace();
-                        }else if (result.isJsonNull()){
-                            Log.e("json_null",null);
-                        }else {
-                            Log.e("image_path_response",result.toString());
-                            addpost_success();
-                        }
-                    }
-                });
-    }
-
-
-
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
@@ -204,13 +186,6 @@ public class CompetitorAddPost extends Activity {
         return result;
     }
 
-    public void addpost_success(){
-        Toast.makeText(CompetitorAddPost.this,"post added succesfully",Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(AddPost.this,HomeProfile.class);
-        //startActivity(intent);
-        finish();
-
-    }
 
 
 }
