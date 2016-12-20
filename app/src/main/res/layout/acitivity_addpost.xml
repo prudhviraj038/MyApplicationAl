@@ -10,14 +10,6 @@
         android:layout_height="50dp"
         android:background="#e6d82e">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:id="@+id/imageView46"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:src="@drawable/back_btn" />
     </LinearLayout>
 
     <ScrollView
