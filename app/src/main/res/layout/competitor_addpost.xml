@@ -39,10 +39,10 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/banner"
             android:id="@+id/item_image"
             android:adjustViewBounds="true"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:src="@drawable/banner" />
 
         <EditText
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        app:srcCompat="@drawable/add_icon"
         android:id="@+id/submit_btn"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:src="@drawable/add_icon" />
 </LinearLayout>
