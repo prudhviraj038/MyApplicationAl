@@ -53,31 +53,51 @@
                 android:layout_marginBottom="5dp"
                 android:layout_height="40dp">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
+
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/linearlayout_bg"
+                    android:padding="10dp">
 
                     <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:inputType="textPersonName"
-                        android:ems="10"
-                        android:id="@+id/editText"
-                        android:layout_weight="1"
-                        android:background="@drawable/linearlayout_bg"
-                        android:paddingLeft="5dp" />
-
-                    <TextView
-                        android:text="Send"
-                        android:layout_height="match_parent"
-                        android:id="@+id/textView60"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:background="#e6d82e"
-                        android:layout_width="66dp"
-                        android:textColor="#ffffff"
-                        android:layout_marginLeft="5dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/et_chat_message"
+                        android:singleLine="true"
+                        android:background="#00000000"
+                        android:hint="Type Here"
+                        android:textSize="15sp" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"></LinearLayout>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:id="@+id/msg_send_img"
+                    android:src="@drawable/send_icon" />
+            </LinearLayout>
+        </LinearLayout>
             </RelativeLayout>
 
             <ListView
