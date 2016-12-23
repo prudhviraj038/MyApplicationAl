@@ -38,7 +38,7 @@
                 android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:id="@+id/item_image"
-                android:src="@drawable/banner"
+                android:src="@drawable/placeholder"
                 android:scaleType="centerInside" />
 
         </RelativeLayout>
