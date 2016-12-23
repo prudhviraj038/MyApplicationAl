@@ -224,6 +224,7 @@ public class AddPost extends Activity {
 
     private String getRealPathFromURI(Uri contentURI) {
         String result;
+        String demo;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) {
             result = contentURI.getPath();

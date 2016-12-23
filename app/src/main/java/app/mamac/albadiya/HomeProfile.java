@@ -34,7 +34,7 @@ public class HomeProfile extends Fragment {
     ArrayList<String> title;
     ArrayList<Integer> image;
     ArrayList<Posts> postsfrom_api;
-    ImageView add_post;
+    ImageView chat_screen;
     UserProfileSelectedListner mCallback;
     public interface UserProfileSelectedListner {
 
@@ -60,12 +60,12 @@ public class HomeProfile extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.home_fragment_items,container,false);
         listView = (ListView) view.findViewById(R.id.home_items);
-        add_post = (ImageView) view.findViewById(R.id.add_post);
-        add_post.setOnClickListener(new View.OnClickListener() {
+        chat_screen = (ImageView) view.findViewById(R.id.chat_screen);
+        chat_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(getActivity(),AddPost.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getActivity(),ChatScreen.class);
+                startActivity(intent);
             }
         });
 

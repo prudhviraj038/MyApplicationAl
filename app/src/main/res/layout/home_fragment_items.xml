@@ -29,7 +29,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:id="@+id/add_post"
+            android:id="@+id/chat_screen"
             android:src="@drawable/ic_chats"
             android:adjustViewBounds="true"
             android:layout_height="25dp" />
