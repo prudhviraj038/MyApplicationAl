@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -38,12 +40,13 @@ public class CompetitorsDetailPage extends Activity {
     TextView end_date;
     TextView participants;
     TextView add_btn;
-    ArrayList<Competitors> competitersfrom_api;
+    ArrayList<Integer> baners;
     String comp_id;
     String title;
     String image;
     String date;
     String participant;
+    ArrayList<Competitors> competitersfrom_api;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -51,15 +54,22 @@ public class CompetitorsDetailPage extends Activity {
         gridView = (GridView) findViewById(R.id.gallery_images);
 
         competitersfrom_api = new ArrayList<>();
-        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api);
+
+        baners = new ArrayList<>();
+        baners.add(R.drawable.banner3);
+        baners.add(R.drawable.timeline);
+        baners.add(R.drawable.amazon);
+        baners.add(R.drawable.banner1);
+        baners.add(R.drawable.banner);
+
+        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api,baners);
         gridView.setAdapter(competitorDetailPageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Toast.makeText(CompetitorsDetailPage.this,baners.get(position),Toast.LENGTH_SHORT).show();
             }
         });
-
         item_name = (TextView) findViewById(R.id.item_name);
         item_image = (ImageView) findViewById(R.id.item_image);
         end_date  = (TextView) findViewById(R.id.end_date);
