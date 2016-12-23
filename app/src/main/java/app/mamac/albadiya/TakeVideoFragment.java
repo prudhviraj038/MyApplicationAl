@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by mac on 12/12/16.
@@ -22,6 +23,7 @@ public class TakeVideoFragment extends Fragment {
     private boolean recording;
     ImageView camera_btn;
     PostFragment mTakeVideoListner;
+    TextView recording_message;
     public interface TakeVideoListner
     {
         public void onVideobtn();
@@ -39,6 +41,9 @@ public class TakeVideoFragment extends Fragment {
             }
         });
         mTakeVideoListner = (PostFragment)getParentFragment();
+        recording_message = (TextView) view.findViewById(R.id.recording_message);
+        recording_message.setVisibility(View.GONE);
         return view;
     }
+
 }

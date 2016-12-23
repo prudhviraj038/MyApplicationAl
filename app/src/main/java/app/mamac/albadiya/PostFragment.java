@@ -1,8 +1,13 @@
 package app.mamac.albadiya;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
+import android.media.ExifInterface;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,18 +24,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by mac on 12/12/16.
  */
 
 public class PostFragment extends Fragment implements TakeVideoFragment.TakeVideoListner,TakePictureFragment.TakePictureListner{
+
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
     ImageView video_btn,camera_btn,gallery_btn;
@@ -97,7 +108,45 @@ private void reset_icons(int pos){
     @Override
     public void onVideobtn() {
         Log.e("video","clicked");
+                        if (recording) {
+                    mediaRecorder.stop();
+                    releaseMediaRecorder();
+                    Toast.makeText(getActivity(),"Video captured done!",Toast.LENGTH_SHORT).show();
+                    recording=false;
+                            if(takeVideoFragment!=null){
+                                takeVideoFragment.recording_message.setVisibility(View.GONE);
+                            }
 
+                            Intent intent = new Intent(getActivity(),AddPost.class);
+                            intent.putExtra("video", Uri.parse("/sdcard/myvideo.mp4").toString());
+                            startActivity(intent);
+                        }
+                else{
+
+                if (!prepareMediaRecorder()){
+                    Toast.makeText(getActivity(),"Video recording failed!",Toast.LENGTH_SHORT).show();
+                }
+                    else {
+                            if(takeVideoFragment!=null){
+                                takeVideoFragment.recording_message.setVisibility(View.VISIBLE);
+                            }
+                        getActivity().runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    mediaRecorder.start();
+                                }
+                                catch (Exception ex){
+                                    ex.printStackTrace();
+                                }
+                            }
+                        });
+                        recording = true;
+
+                    }
+
+                }
     }
 
     @Override
@@ -119,7 +168,7 @@ private void reset_icons(int pos){
 
     private void setcamera_in_picturemode(){
         reset_camera();
-        mPreview = new CameraPreview(getActivity(), 1, CameraPreview.LayoutMode.FitToParent);
+        mPreview = new CameraPreview(getActivity(), 0, CameraPreview.LayoutMode.FitToParent);
         RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayout.addView(mPreview, 0, previewLayoutParams);
         mPicture = getPictureCallback();
@@ -128,10 +177,11 @@ private void reset_icons(int pos){
 
     private void setcamera_in_videomode(){
         reset_camera();
-        mPreview = new CameraPreview(getActivity(), 1, CameraPreview.LayoutMode.FitToParent);
+        mPreview = new CameraPreview(getActivity(), 0, CameraPreview.LayoutMode.FitToParent);
         RelativeLayout.LayoutParams previewLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         mLayout.addView(mPreview, 0, previewLayoutParams);
         mPicture=null;
+
 
     }
 
@@ -143,6 +193,7 @@ private void reset_icons(int pos){
             mPreview = null;
         }
     }
+    TakeVideoFragment takeVideoFragment;
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
 
@@ -153,8 +204,8 @@ private void reset_icons(int pos){
         public Fragment getItem(int position) {
             switch (position){
                 case 0:{
-
-                    return new TakeVideoFragment();
+                    takeVideoFragment = new TakeVideoFragment();
+                    return takeVideoFragment;
 
                 }
                 case 1:{
@@ -173,7 +224,7 @@ private void reset_icons(int pos){
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
 
@@ -234,7 +285,24 @@ private void reset_icons(int pos){
                 try {
 //write the file
                     FileOutputStream fos = new FileOutputStream(pictureFile);
-                    fos.write(data);
+                    Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                    ExifInterface exif=new ExifInterface(pictureFile.toString());
+
+                    Log.d("EXIF value", exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+                    if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")){
+                        realImage= rotate(realImage, 90);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")){
+                        realImage= rotate(realImage, 270);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")){
+                        realImage= rotate(realImage, 180);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")){
+                        realImage= rotate(realImage, 90);
+                    }
+
+                    boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                  //  fos.write(data);
                     fos.close();
                     Toast toast = Toast.makeText(getActivity(), "Picture saved: " + pictureFile.getName(), Toast.LENGTH_LONG);
                     toast.show();
@@ -251,14 +319,27 @@ private void reset_icons(int pos){
                 //image_path_id.add("-1");
 // display_image(pictureFile);
 //show_image_edit(pictureFile);
-                Intent intent = new Intent(getActivity(),AddPost.class);
-                intent.putExtra("image",pictureFile.toURI().toString());
-                startActivity(intent);
+
+//                Intent intent = new Intent(getActivity(),AddPost.class);
+//                intent.putExtra("image",pictureFile.toURI().toString());
+//                startActivity(intent);
+
+                CropImage.activity(Uri.fromFile(pictureFile)).start(getContext(), PostFragment.this);
 
 
             }
         };
         return picture;
+    }
+    public static Bitmap rotate(Bitmap bitmap, int degree) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        //       mtx.postRotate(degree);
+        mtx.setRotate(degree);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
     }
 
     private static File getOutputMediaFile() {
@@ -287,12 +368,10 @@ private void reset_icons(int pos){
 
         mPreview.mCamera.unlock();
         mediaRecorder.setCamera(mPreview.mCamera);
-
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-
         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-
+      //  mediaRecorder.setOrientationHint(90);
         mediaRecorder.setOutputFile("/sdcard/myvideo.mp4");
         mediaRecorder.setMaxDuration(600000); //set maximum duration 60 sec.
         mediaRecorder.setMaxFileSize(50000000); //set maximum file size 50M
@@ -316,6 +395,23 @@ private void reset_icons(int pos){
             mediaRecorder.release(); // release the recorder object
             mediaRecorder = null;
             mPreview.mCamera.lock(); // lock camera for later use
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Intent intent = new Intent(getActivity(),AddPost.class);
+                intent.putExtra("image",resultUri.toString());
+                startActivity(intent);
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
     }
 

@@ -49,6 +49,7 @@ public class CameraPreviewSampleActivity extends Activity {
             public void onClick(View v) {
                 mPicture = getPictureCallback();
                 mPreview.mCamera.takePicture(null,null,mPicture);
+
 //                if (recording) {
 //                    mediaRecorder.stop();
 //                    releaseMediaRecorder();

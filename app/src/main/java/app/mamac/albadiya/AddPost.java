@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,9 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -40,11 +43,13 @@ public class AddPost extends Activity {
     EditText descript;
     ImageView item_image;
     ImageView submit_btn;
+    VideoView videoView;
+
     @Override
    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_addpost);
-
+        videoView = (VideoView) findViewById(R.id.videoView2);
         title = (EditText) findViewById(R.id.title);
         descript = (EditText) findViewById(R.id.descript);
         item_image = (ImageView) findViewById(R.id.item_image);
@@ -96,7 +101,35 @@ public class AddPost extends Activity {
             Log.e("image_in_activity",getIntent().getStringExtra("image"));
             Picasso.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(item_image);
             selected_image_path = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("image")));
+
+        }else if(getIntent().hasExtra("video")){
+            selected_vide_path  = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("video")));
+
         }
+
+        item_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item_image.setVisibility(View.GONE);
+                if(!selected_vide_path.equals("")){
+
+                    videoView.setVideoPath(selected_vide_path);
+                    MediaController mediaController = new MediaController(AddPost.this);
+                    mediaController.setAnchorView(videoView);
+                    videoView.setMediaController(mediaController);
+                  //  videoView.resolveAdjustedSize()
+                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            Log.i("TAG","Duration = " + videoView.getDuration());
+                        }
+                    });
+                    videoView.start();
+
+                }
+            }
+        });
+
     }
 
     public void show_images(){
@@ -123,6 +156,8 @@ public class AddPost extends Activity {
 
 
     String selected_image_path = "";
+    String selected_vide_path = "";
+
     protected void onActivityResult(int requestCode,int resultCode, Intent imageReturnedIntent){
         super.onActivityResult(requestCode,resultCode,imageReturnedIntent);
         switch (requestCode){

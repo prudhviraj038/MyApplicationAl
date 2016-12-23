@@ -31,6 +31,9 @@ public class Posts implements Serializable{
             total_likes = jsonObject.get("total_likes").getAsString();
         else
             total_likes = "0";
+        user_id = "0";
+        user_image = "no-image";
+        user_name = "no-name";
 
         try{
             if(jsonObject.has("views"))
@@ -38,23 +41,13 @@ public class Posts implements Serializable{
             else
                 total_views = "99";
 
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        if(jsonObject.has("total_likes"))
-        {
             user_id = jsonObject.get("posted").getAsJsonObject().get("id").getAsString();
             user_image = jsonObject.get("posted").getAsJsonObject().get("image").getAsString();
             user_name = jsonObject.get("posted").getAsJsonObject().get("name").getAsString();
 
-        }else{
-            user_id = "0";
-            user_image = "no-image";
-            user_name = "no-name";
 
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-
-
     }
 }
