@@ -85,8 +85,9 @@ public class AddPost extends Activity {
                                         //   Toast.makeText(lawyerEditProfile.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                         if(selected_image_path.equals("")){
                                             addpost_success();
-                                        }else {
+                                        } else {
                                             upload_images(result.get("post_id").getAsString());
+
                                         }
                                     }else {
                                         Toast.makeText(AddPost.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
@@ -181,7 +182,9 @@ public class AddPost extends Activity {
         }
     }
 
-    public void upload_images(String post_id){
+
+
+    public void upload_images(final String post_id){
         final ProgressBar progressBar = new ProgressBar(this);
         final  ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait image is loading..");
@@ -200,7 +203,6 @@ public class AddPost extends Activity {
                     }
                 })
                 .setMultipartParameter("post_id",post_id)
-                .setMultipartParameter("type","1")
                 .setMultipartFile("file","image/png",new File(selected_image_path))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
@@ -214,6 +216,49 @@ public class AddPost extends Activity {
                             Log.e("json_null",null);
                         }else {
                             Log.e("image_path_response",result.toString());
+                            if (selected_vide_path.equals("")) {
+                                addpost_success();
+                            }else{
+                                upload_videos(post_id);
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    public void  upload_videos(String post_id){
+        final ProgressBar progressBar = new ProgressBar(this);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("please wait video is uploading...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        Ion.with(this)
+                .load(Settings.SERVER_URL + "add-post-video-ios.php")
+                .uploadProgressBar(progressBar)
+                .uploadProgressHandler(new ProgressCallback() {
+                    @Override
+                    public void onProgress(long downloaded, long total) {
+                        progressDialog.setMax((int) total);
+                        progressDialog.setProgress((int) downloaded);
+                    }
+                })
+                .setMultipartParameter("post_id",post_id)
+                .setMultipartFile("file","video/mp4",new File(selected_vide_path))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if (progressDialog!=null)
+                            progressDialog.dismiss();
+                        if (e!=null){
+                            e.printStackTrace();
+                        }else if (result.isJsonNull()){
+                            Log.e("json_null",null);
+                        }else {
+                            Log.e("video_path_response",result.toString());
                             addpost_success();
                         }
                     }
