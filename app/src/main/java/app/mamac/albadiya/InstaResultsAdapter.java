@@ -18,16 +18,16 @@ import java.util.ArrayList;
 public class InstaResultsAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
-    ArrayList<String> mnames;
+    ArrayList<String> mname;
 
-    public InstaResultsAdapter(Context context,ArrayList<String> names){
+    public InstaResultsAdapter(Context context,ArrayList<String> name){
         this.context = context;
-        mnames = names;
+        mname = name;
         inflater = LayoutInflater.from(context);
     }
     @Override
     public int getCount() {
-        return mnames.size();
+        return mname.size();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class InstaResultsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View item_view = inflater.inflate(R.layout.insta_results,null);
         TextView item_name = (TextView) item_view.findViewById(R.id.item_name);
-        item_name.setText(mnames.get(position));
+        item_name.setText(mname.get(position));
         return item_view;
     }
 }

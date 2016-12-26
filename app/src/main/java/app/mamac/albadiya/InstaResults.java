@@ -20,34 +20,34 @@ import java.util.ArrayList;
 public class InstaResults extends Fragment {
     InstaResultsAdapter instaResultsAdapter;
     GridView gridView;
-    ArrayList<String> names;
+    ArrayList<String> name;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.insta_results_items,container,false);
         gridView = (GridView) view.findViewById(R.id.results_items);
 
-        names = new ArrayList<>();
+        name = new ArrayList<>();
 
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
-        names.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
+        name.add("Results");
 
-        instaResultsAdapter = new InstaResultsAdapter(getActivity(),names);
+        instaResultsAdapter = new InstaResultsAdapter(getActivity(),name);
         gridView.setAdapter(instaResultsAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),names.get(position),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),name.get(position),Toast.LENGTH_SHORT).show();
             }
         });
         return view;
