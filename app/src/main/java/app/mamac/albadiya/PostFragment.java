@@ -224,7 +224,7 @@ private void reset_icons(int pos){
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 
