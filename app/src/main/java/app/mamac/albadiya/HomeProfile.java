@@ -24,6 +24,9 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 import java.util.List;
 
+import static app.mamac.albadiya.R.id.no_of_views;
+import static app.mamac.albadiya.R.id.posts;
+
 /**
  * Created by T on 07-12-2016.
  */
@@ -89,12 +92,26 @@ public class HomeProfile extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PostDetailPageFragment postDetailPageFragment = new PostDetailPageFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("post",postsfrom_api.get(position));
-                postDetailPageFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.fragment,postDetailPageFragment).commit();
-                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
+                Ion.with(getActivity())
+                        .load(Settings.SERVER_URL + "view.php")
+                        .setBodyParameter("post_id",postsfrom_api.get(position).id)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                if (result.get("status").getAsString().equals("Success"))
+                                    Toast.makeText(getActivity(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(getActivity(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+//                PostDetailPageFragment postDetailPageFragment = new PostDetailPageFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("post",postsfrom_api.get(position));
+//                postDetailPageFragment.setArguments(bundle);
+//                getFragmentManager().beginTransaction().replace(R.id.fragment,postDetailPageFragment).commit();
+//                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
             }
         });
         get_posts();
