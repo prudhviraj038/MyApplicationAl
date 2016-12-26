@@ -35,6 +35,7 @@ import java.util.HashMap;
 import static android.R.attr.color;
 import static android.R.attr.description;
 import static android.R.attr.lines;
+import static android.R.attr.pointerIcon;
 import static android.R.attr.popupAnimationStyle;
 import static android.R.attr.resource;
 import static android.R.attr.theme;
@@ -110,6 +111,7 @@ public class HomeProfileAdapter extends BaseAdapter {
         description.setText(posts.get(position).description);
         no_of_likes.setText(posts.get(position).total_likes);
         no_of_views.setText(posts.get(position).total_views);
+
         Ion.with(context)
                 .load(posts.get(position).image)
                 .withBitmap()
@@ -151,11 +153,43 @@ public class HomeProfileAdapter extends BaseAdapter {
                     user_like.setBackgroundResource(R.drawable.heart);
                     likes.put(position,likes.get(position)+1);
                     no_of_likes.setText(String.valueOf(likes.get(position)));
+                    Ion.with(context)
+                            .load(Settings.SERVER_URL+"image-like.php")
+                            .setBodyParameter("member_id",Settings.GetUserId(context))
+                            .setBodyParameter("image_id",posts.get(position).id)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    if (result.get("status").getAsString().equals("Success")){
+                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                 }
                 else {
                     user_like.setBackgroundResource(R.drawable.ic_likes_vi);
                     likes.put(position,likes.get(position)-1);
                     no_of_likes.setText(String.valueOf(likes.get(position)));
+                    Ion.with(context)
+                            .load(Settings.SERVER_URL+"image-unlike.php")
+                            .setBodyParameter("member_id",Settings.GetUserId(context))
+                            .setBodyParameter("image_id",posts.get(position).id)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    if (result.get("status").getAsString().equals("Success")){
+                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
 
                 }
 
@@ -171,6 +205,15 @@ public class HomeProfileAdapter extends BaseAdapter {
                                 }
                             });
                 }
+        });
+
+
+
+        item_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               user_like.performClick();
+            }
         });
 
 
