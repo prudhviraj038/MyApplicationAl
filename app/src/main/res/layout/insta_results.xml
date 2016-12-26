@@ -14,8 +14,8 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:srcCompat="@drawable/ic_profile"
-            android:id="@+id/imageView47" />
+            android:id="@+id/imageView47"
+            android:src="@drawable/ic_profile" />
 
         <TextView
             android:text="TextView"

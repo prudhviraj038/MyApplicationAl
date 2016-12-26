@@ -15,14 +15,14 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:srcCompat="@drawable/ic_profile"
-            android:id="@+id/imageView55" />
+            android:id="@+id/imageView55"
+            android:src="@drawable/ic_profile" />
 
         <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/insta_news"
+            android:id="@+id/item_news"
             android:gravity="center_vertical|center_horizontal"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp" />
