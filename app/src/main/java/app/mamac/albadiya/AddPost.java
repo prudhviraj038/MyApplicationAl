@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +35,10 @@ import com.koushikdutta.ion.ProgressCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by T on 12-12-2016.
@@ -104,7 +110,29 @@ public class AddPost extends Activity {
             selected_image_path = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("image")));
 
         }else if(getIntent().hasExtra("video")){
+
+         //   Picasso.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(item_image);
             selected_vide_path  = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("video")));
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selected_vide_path, MediaStore.Images.Thumbnails.MINI_KIND);
+            item_image.setImageBitmap(thumb);
+            File video_thunbnail = getOutputMediaFile();
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(video_thunbnail);
+                thumb.compress(Bitmap.CompressFormat.PNG, 100, out);
+                selected_image_path = getRealPathFromURI(Uri.fromFile(video_thunbnail));
+                // bmp is your Bitmap instance // PNG is a lossless format, the compression factor (100) is ignored
+                 } catch (Exception e) {
+                e.printStackTrace();
+            } finally
+            { try
+            {
+                if (out != null) { out.close();
+                }
+            } catch (IOException e)
+            { e.printStackTrace();
+            }
+            }
 
         }
 
@@ -227,7 +255,7 @@ public class AddPost extends Activity {
     }
 
 
-    public void  upload_videos(String post_id){
+    public void  upload_videos(final String post_id){
         final ProgressBar progressBar = new ProgressBar(this);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("please wait video is uploading...");
@@ -280,6 +308,7 @@ public class AddPost extends Activity {
             cursor.close();
         }
         return result;
+
     }
 
     public void addpost_success(){
@@ -289,4 +318,25 @@ public class AddPost extends Activity {
         finish();
 
     }
+
+    private static File getOutputMediaFile() {
+//make a new file directory inside the "sdcard" folder
+        File mediaStorageDir = new File("/sdcard/", "Albadiaya");
+
+        if (!mediaStorageDir.exists()) {
+//if you cannot make this folder return
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+
+//take the current timeStamp
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+//and make a media file:
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+
+        return mediaFile;
+    }
+
 }

@@ -105,12 +105,28 @@ public class HomeProfileAdapter extends BaseAdapter {
 
         final ImageView item_image   = (ImageView) item_view.findViewById(R.id.item_image);
         final ImageView user_image   = (ImageView) item_view.findViewById(R.id.user_image);
+        final ImageView play_btn     = (ImageView) item_view.findViewById(R.id.play_btn);
+        if(posts.get(position).video.equals("")){
+            play_btn.setVisibility(View.GONE);
+        }else{
+            play_btn.setVisibility(View.VISIBLE);
+        }
+        play_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(context, AndroidVideoPlayerActivity.class);
+                     intent.putExtra("video", posts.get(position).video);
+                    context.startActivity(intent);
+
+            }
+        });
 //        item_image.setImageResource(mprofile_image.get(position));
 
         item_title.setText(posts.get(position).title);
         description.setText(posts.get(position).description);
         no_of_likes.setText(posts.get(position).total_likes);
         no_of_views.setText(posts.get(position).total_views);
+
 
         Ion.with(context)
                 .load(posts.get(position).image)
@@ -208,11 +224,16 @@ public class HomeProfileAdapter extends BaseAdapter {
         });
 
 
-
+        final int number_of_clicks = 0;
         item_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               user_like.performClick();
+
+//               if ( number_of_clicks == 2) {
+                   user_like.performClick();
+//               }else{
+//                   Log.e("number_of_clikes",toString());
+//               }
             }
         });
 

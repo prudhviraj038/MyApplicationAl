@@ -13,13 +13,14 @@ import java.io.Serializable;
 
 public class Posts implements Serializable{
 
-    public String id,title,title_ar,image,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name;
+    public String id,title,title_ar,image,video,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name;
 
     public Posts(JsonObject jsonObject,Context context){
         id = jsonObject.get("id").getAsString();
         title = jsonObject.get("title").getAsString();
         title_ar = jsonObject.get("title_ar").getAsString();
         image = jsonObject.get("image").getAsString();
+        video = jsonObject.get("video").getAsString();
         description = jsonObject.get("description").getAsString();
         description_ar = jsonObject.get("description_ar").getAsString();
         if(jsonObject.has("member_like"))
