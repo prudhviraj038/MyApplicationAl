@@ -24,6 +24,7 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 import java.util.List;
 
+import static app.mamac.albadiya.R.id.item_image;
 import static app.mamac.albadiya.R.id.no_of_views;
 import static app.mamac.albadiya.R.id.posts;
 
@@ -111,7 +112,7 @@ public class HomeProfile extends Fragment {
 //                bundle.putSerializable("post",postsfrom_api.get(position));
 //                postDetailPageFragment.setArguments(bundle);
 //                getFragmentManager().beginTransaction().replace(R.id.fragment,postDetailPageFragment).commit();
-//                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
+                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
             }
         });
         get_posts();
