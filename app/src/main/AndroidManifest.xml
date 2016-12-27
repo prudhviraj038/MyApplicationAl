@@ -68,6 +68,8 @@
         <activity android:name=".CompetitorAddPost"></activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
+        <activity android:name=".ChatScreen"></activity>
+        <activity android:name=".AndroidVideoPlayerActivity"></activity>
     </application>
 
 </manifest>
