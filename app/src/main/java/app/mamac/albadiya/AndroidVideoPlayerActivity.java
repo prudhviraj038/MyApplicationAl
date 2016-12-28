@@ -38,10 +38,10 @@ public class AndroidVideoPlayerActivity extends Activity{
         // Set progressbar message
         pDialog.setMessage("please wait...");
 //        pDialog.setMessage(Session.getword(this,"loading"));
-       // pDialog.setIndeterminate(false);
-       // pDialog.setCancelable(false);
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
         // Show progressbar
-        //pDialog.show();
+        pDialog.show();
 
         try {
             // Start the MediaController
