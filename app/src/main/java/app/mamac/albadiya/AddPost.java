@@ -110,8 +110,7 @@ public class AddPost extends Activity {
             selected_image_path = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("image")));
 
         }else if(getIntent().hasExtra("video")){
-
-         //   Picasso.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(item_image);
+            //   Picasso.with(this).load(Uri.parse(getIntent().getStringExtra("image"))).into(item_image);
             selected_vide_path  = getRealPathFromURI(Uri.parse(getIntent().getStringExtra("video")));
             Bitmap thumb = ThumbnailUtils.createVideoThumbnail(selected_vide_path, MediaStore.Images.Thumbnails.MINI_KIND);
             item_image.setImageBitmap(thumb);
@@ -274,7 +273,7 @@ public class AddPost extends Activity {
                     }
                 })
                 .setMultipartParameter("post_id",post_id)
-                .setMultipartFile("file","video/mp4",new File(selected_vide_path))
+                .setMultipartFile("video","video/mp4",new File(selected_vide_path))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override

@@ -32,11 +32,12 @@ public class AndroidVideoPlayerActivity extends Activity{
         // Execute StreamVideo AsyncTask
         VideoURL = getIntent().getStringExtra("video");
         // Create a progressbar
-        //pDialog = new ProgressDialog(this);
+        pDialog = new ProgressDialog(this);
         // Set progressbar title
-       // pDialog.setTitle("Android Video Streaming Tutorial");
+//        pDialog.setTitle("Android Video Streaming Tutorial");
         // Set progressbar message
-        //pDialog.setMessage(Session.getword(this,"loading"));
+        pDialog.setMessage("please wait...");
+//        pDialog.setMessage(Session.getword(this,"loading"));
        // pDialog.setIndeterminate(false);
        // pDialog.setCancelable(false);
         // Show progressbar
@@ -61,7 +62,7 @@ public class AndroidVideoPlayerActivity extends Activity{
         videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             // Close the progress bar and play the video
             public void onPrepared(MediaPlayer mp) {
-                //pDialog.dismiss();
+                pDialog.dismiss();
                 videoview.start();
             }
         });
