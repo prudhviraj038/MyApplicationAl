@@ -94,7 +94,7 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:id="@+id/msg_send_img"
+                    android:id="@+id/send_btn"
                     android:src="@drawable/send_icon" />
             </LinearLayout>
         </LinearLayout>
