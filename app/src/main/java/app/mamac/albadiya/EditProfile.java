@@ -2,11 +2,13 @@ package app.mamac.albadiya;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +24,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+
+import static android.R.attr.action;
 
 /**
  * Created by T on 12-12-2016.
@@ -59,10 +63,11 @@ public class EditProfile extends Fragment {
             });
         }
         else{
+            edit_btn.setTag(1);
             edit_btn.setText("Follow");
             edit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                    Ion.with(getContext())
                             .load(Settings.SERVER_URL + "follow.php")
                             .setBodyParameter("member_id",Settings.GetUserId(getContext()))
@@ -72,10 +77,16 @@ public class EditProfile extends Fragment {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
                                     if (result.get("status").getAsString().equals("Success")){
-                                        //Toast.makeText(getContext(),result.get("follow_id").getAsString(),Toast.LENGTH_SHORT).show();
-                                        edit_btn.setText("Following");
+                                        Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                        final int status =(Integer) v.getTag();
+                                        if(status == 1) {
+                                            edit_btn.setText("Unfollow");
+                                            v.setTag(0);
+                                        } else {
+                                            edit_btn.setText("Follow");
+                                            v.setTag(1);
+                                        }
                                     }else {
-                                        Log.e("message",result.toString());
                                         Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -83,7 +94,14 @@ public class EditProfile extends Fragment {
                 }
 
             });
+
+
         }
+
+
+
+
+
 
         backbtn = (ImageView) view.findViewById(R.id.back_btn);
         backbtn.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +157,7 @@ public class EditProfile extends Fragment {
 
     TextView item_name;
     ImageView item_image;
+
 
 
     ArrayList<Posts> postsfrom_api;
@@ -213,6 +232,11 @@ public class EditProfile extends Fragment {
                     }
                 });
     }
+
+
+
+
+
 
 
 
