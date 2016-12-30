@@ -53,7 +53,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:id="@+id/imageView50"
+                android:id="@+id/settings"
                 android:src="@drawable/ic_settings_vi"
                 android:adjustViewBounds="true" />
         </LinearLayout>
@@ -213,7 +213,7 @@
 
             <ImageView
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView53"
+                android:id="@+id/images_post"
                 android:src="@drawable/ic_points"
                 android:layout_width="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
