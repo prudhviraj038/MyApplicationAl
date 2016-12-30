@@ -12,9 +12,11 @@ import android.widget.FrameLayout;
  */
 
 public class LikeFragment extends Fragment {
+    Posts posts;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.likes_fragment,container,false);
+        posts.total_likes.toString();
         return view;
     }
 }

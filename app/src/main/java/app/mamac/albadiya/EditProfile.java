@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,7 +40,9 @@ public class EditProfile extends Fragment {
     TextView log_out;
     ImageView backbtn;
     TextView no_posts,no_of_followers,no_of_following;
+    ImageView images_post;
     String member_id;
+    ImageView settings;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.activity_editprofile,container,false);
@@ -86,7 +89,8 @@ public class EditProfile extends Fragment {
                                             edit_btn.setText("Follow");
                                             v.setTag(1);
                                         }
-                                    }else {
+
+                                    }else{
                                         Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -97,12 +101,14 @@ public class EditProfile extends Fragment {
 
 
         }
-
-
-
-
-
-
+        settings = (ImageView) view.findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment =  new SettingsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment,settingsFragment).commit();
+            }
+        });
         backbtn = (ImageView) view.findViewById(R.id.back_btn);
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +153,20 @@ public class EditProfile extends Fragment {
         no_posts = (TextView) view.findViewById(R.id.user_no_posts);
         no_of_followers = (TextView) view.findViewById(R.id.followers);
         no_of_following = (TextView) view.findViewById(R.id.following);
+        images_post = (ImageView) view.findViewById(R.id.images_post);
+        images_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfileAdapter = new EditProfileAdapter(getActivity(),postsfrom_api);
+                gridView.setAdapter(editProfileAdapter);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Toast.makeText(getActivity(),images.get(position),Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         get_member_details();
 
     //    get_posts();
