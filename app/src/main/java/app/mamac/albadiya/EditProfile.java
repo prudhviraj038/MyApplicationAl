@@ -60,6 +60,29 @@ public class EditProfile extends Fragment {
         }
         else{
             edit_btn.setText("Follow");
+            edit_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   Ion.with(getContext())
+                            .load(Settings.SERVER_URL + "follow.php")
+                            .setBodyParameter("member_id",Settings.GetUserId(getContext()))
+                            .setBodyParameter("follower_id",member_id)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    if (result.get("status").getAsString().equals("Success")){
+                                        //Toast.makeText(getContext(),result.get("follow_id").getAsString(),Toast.LENGTH_SHORT).show();
+                                        edit_btn.setText("Following");
+                                    }else {
+                                        Log.e("message",result.toString());
+                                        Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+
+            });
         }
 
         backbtn = (ImageView) view.findViewById(R.id.back_btn);
@@ -101,9 +124,8 @@ public class EditProfile extends Fragment {
            @Override
            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               // Toast.makeText(getActivity(),images.get(position),Toast.LENGTH_SHORT).show();
-
            }
-       });
+        });
         no_posts = (TextView) view.findViewById(R.id.user_no_posts);
         no_of_followers = (TextView) view.findViewById(R.id.followers);
         no_of_following = (TextView) view.findViewById(R.id.following);
@@ -191,6 +213,7 @@ public class EditProfile extends Fragment {
                     }
                 });
     }
+
 
 
 
