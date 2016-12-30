@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -29,6 +30,14 @@ public class ChangePasswordActivity extends Activity {
         npwd = (EditText) findViewById(R.id.npwd);
         cnpwd = (EditText) findViewById(R.id.cnpwd);
         done_btn = (TextView) findViewById(R.id.done_btn);
+        forget_password = (TextView) findViewById(R.id.forget_password);
+        forget_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChangePasswordActivity.this,ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
         cancel_btn = (TextView) findViewById(R.id.cancel_btn);
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
