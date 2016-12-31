@@ -37,7 +37,7 @@ public class EditProfile extends Fragment {
     EditProfileAdapter editProfileAdapter;
     ArrayList<Integer> images;
     GridView gridView;
-    TextView log_out;
+    //TextView log_out;
     ImageView backbtn;
     TextView no_posts,no_of_followers,no_of_following;
     ImageView images_post;
@@ -126,14 +126,14 @@ public class EditProfile extends Fragment {
             }
         });
         item_image = (ImageView) view.findViewById(R.id.item_image);
-        log_out = (TextView) view.findViewById(R.id.log_out_btn);
-        log_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Settings.SetUserId(getActivity(),"-1");
-                getActivity().onBackPressed();
-            }
-        });
+        //log_out = (TextView) view.findViewById(R.id.log_out_btn);
+//        log_out.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Settings.SetUserId(getActivity(),"-1");
+//                getActivity().onBackPressed();
+//            }
+//        });
         postsfrom_api = new ArrayList<>();
         images = new ArrayList<>();
         images.add(R.drawable.banner3);
