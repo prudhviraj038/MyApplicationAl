@@ -71,7 +71,7 @@
                 android:adjustViewBounds="false"
                 android:layout_centerHorizontal="false"
                 android:layout_centerInParent="true"
-                android:src="@drawable/play_btn" />
+                android:src="@drawable/play_button" />
 
         </RelativeLayout>
 
