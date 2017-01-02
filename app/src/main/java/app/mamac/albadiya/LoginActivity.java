@@ -41,8 +41,10 @@ public class LoginActivity extends Activity {
                progressDialog.show();
                if (email_string.equals("")){
                    Toast.makeText(LoginActivity.this,"please enter email",Toast.LENGTH_SHORT).show();
+                   email.requestFocus();
                }else if (password_string.equals("")){
                    Toast.makeText(LoginActivity.this,"please enter password",Toast.LENGTH_SHORT).show();
+                   password.requestFocus();
                }else{
                    Ion.with(LoginActivity.this)
                            .load(Settings.SERVER_URL+"login.php")
