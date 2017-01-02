@@ -7,8 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,11 +30,17 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.squareup.picasso.Picasso;
 
+import junit.framework.Test;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.R.attr.bitmap;
 import static android.R.attr.color;
 import static android.R.attr.description;
 import static android.R.attr.lines;
@@ -51,6 +60,7 @@ public class HomeProfileAdapter extends BaseAdapter {
     HashMap<Integer,Boolean> flags;
     HashMap<Integer,Integer> likes;
     HomeProfile homeProfile;
+    private GestureDetector gestureDetector;
 //    ArrayList<String> mnames;
 //    ArrayList<Integer> mimages;
 
@@ -69,12 +79,9 @@ public class HomeProfileAdapter extends BaseAdapter {
                 likes.put(i,Integer.parseInt(posts.get(i).total_likes));
              if(posts.get(i).member_like.equals("0")){
                  flags.put(i,Boolean.FALSE);
-             }
-
-             else {
+             } else {
                  flags.put(i, Boolean.TRUE);
              }
-
              Log.e("flagvalue",String.valueOf(flags.get(i)));
          }
 //        mnames = names;
@@ -98,6 +105,7 @@ public class HomeProfileAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final  View item_view = inflater.inflate(R.layout.home_fragment,null);
+
         TextView  item_title  = (TextView) item_view.findViewById(R.id.item_title);
         TextView  description = (TextView) item_view.findViewById(R.id.description);
         final TextView  no_of_likes = (TextView) item_view.findViewById(R.id.no_of_likes);
@@ -126,6 +134,7 @@ public class HomeProfileAdapter extends BaseAdapter {
         description.setText(posts.get(position).description);
         no_of_likes.setText(posts.get(position).total_likes);
         no_of_views.setText(posts.get(position).total_views);
+
 
 
         Ion.with(context)
@@ -169,50 +178,16 @@ public class HomeProfileAdapter extends BaseAdapter {
                     user_like.setBackgroundResource(R.drawable.heart);
                     likes.put(position,likes.get(position)+1);
                     no_of_likes.setText(String.valueOf(likes.get(position)));
-                    Ion.with(context)
-                            .load(Settings.SERVER_URL+"image-like.php")
-                            .setBodyParameter("member_id",Settings.GetUserId(context))
-                            .setBodyParameter("image_id",posts.get(position).id)
-                            .asJsonObject()
-                            .setCallback(new FutureCallback<JsonObject>() {
-                                @Override
-                                public void onCompleted(Exception e, JsonObject result) {
-                                    if (result.get("status").getAsString().equals("Success")){
-                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                    }else {
-                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
                 }
                 else {
                     user_like.setBackgroundResource(R.drawable.ic_likes_vi);
                     likes.put(position,likes.get(position)-1);
                     no_of_likes.setText(String.valueOf(likes.get(position)));
-                    Ion.with(context)
-                            .load(Settings.SERVER_URL+"image-unlike.php")
-                            .setBodyParameter("member_id",Settings.GetUserId(context))
-                            .setBodyParameter("image_id",posts.get(position).id)
-                            .asJsonObject()
-                            .setCallback(new FutureCallback<JsonObject>() {
-                                @Override
-                                public void onCompleted(Exception e, JsonObject result) {
-                                    if (result.get("status").getAsString().equals("Success")){
-                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                    }else {
-                                        Toast.makeText(context,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-
                 }
-
-                    Ion.with(context)
+                Ion.with(context)
                             .load(Settings.SERVER_URL+"like.php")
-                            .setBodyParameter("post_id",posts.get(position).id)
                             .setBodyParameter("member_id",Settings.GetUserId(context))
+                            .setBodyParameter("post_id",posts.get(position).id)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
@@ -223,21 +198,33 @@ public class HomeProfileAdapter extends BaseAdapter {
                 }
         });
 
-
-        final int number_of_clicks = 0;
-        item_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-//               if ( number_of_clicks == 2) {
+       item_image.setOnTouchListener(new View.OnTouchListener() {
+           private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+               @Override
+               public boolean onDoubleTap(MotionEvent e) {
+                   Log.d("TEST", "onDoubleTap");
                    user_like.performClick();
-//               }else{
-//                   Log.e("number_of_clikes",toString());
-//               }
-            }
-        });
+                   return super.onDoubleTap(e);
+               }
+               // implement here other callback methods like onFling, onScroll as necessary
+           });
+
+           @Override
+           public boolean onTouch(View v, MotionEvent event) {
+               Log.d("TEST", "Raw event: " + event.getAction() + ", (" + event.getRawX() + ", " + event.getRawY() + ")");
+               user_like.performClick();
+               gestureDetector.onTouchEvent(event);
+               return true;
+           }
+       });
 
 
+//       item_image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                 user_like.performClick();
+//            }
+//        });
 
         ImageView share_it = (ImageView) item_view.findViewById(R.id.share_it);
 
@@ -248,29 +235,26 @@ public class HomeProfileAdapter extends BaseAdapter {
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_SUBJECT,posts.get(position).title);
                 i.putExtra(Intent.EXTRA_TEXT, posts.get(position).image);
+                i.putExtra(Intent.EXTRA_TEXT, posts.get(position).description);
                 context.startActivity(Intent.createChooser(i,"Share via"));
             }
         });
-    user_image.setOnClickListener(new View.OnClickListener() {
+
+
+      user_image.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
             homeProfile.go_to_user_profile(posts.get(position).user_id);
-        }
-    });
-        item_title.setOnClickListener(new View.OnClickListener() {
+           }
+      });
+
+       item_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                homeProfile.go_to_user_profile(posts.get(position).user_id);
+             homeProfile.go_to_user_profile(posts.get(position).user_id);
             }
         });
 
-
         return item_view;
-
-
     }
-
-
 }
