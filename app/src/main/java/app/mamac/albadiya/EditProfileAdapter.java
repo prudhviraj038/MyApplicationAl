@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class EditProfileAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
+    EditProfile editProfile;
     ArrayList<Posts> mimages;
 
     protected EditProfileAdapter(Context context,ArrayList<Posts> images){
@@ -50,7 +51,6 @@ public class EditProfileAdapter extends BaseAdapter {
         View item_view = inflater.inflate(R.layout.edit_profile_items,null);
         ImageView item_image = (ImageView) item_view.findViewById(R.id.item_image);
       //  item_image.setImageResource(mimages.get(position).image);
-
         Ion.with(context)
                 .load(mimages.get(position).image)
                 .withBitmap()
