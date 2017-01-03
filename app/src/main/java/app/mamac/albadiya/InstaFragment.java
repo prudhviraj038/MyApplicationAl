@@ -56,12 +56,18 @@ public class InstaFragment extends FragmentActivity implements HomeProfile.UserP
         third_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Settings.GetUserId(InstaFragment.this).equals("-1")){
+                    Intent intent = new Intent(InstaFragment.this,HomeActivityScreen.class);
+                    startActivity(intent);
+                }else{
+                    //HomeProfile homeProfile = new HomeProfile();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.fragment,homeProfile).commit();
+                    PostFragment postFragment = new PostFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment,postFragment).commit();
+                    reset_icons(3);
+                }
 
-                //HomeProfile homeProfile = new HomeProfile();
-                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment,homeProfile).commit();
-                PostFragment postFragment = new PostFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment,postFragment).commit();
-                reset_icons(3);
+
 
             }
         });
