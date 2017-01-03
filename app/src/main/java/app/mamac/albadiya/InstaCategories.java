@@ -27,6 +27,10 @@ public class InstaCategories extends Fragment {
         likes_icon    = (ImageView) view.findViewById(R.id.likes_icon);
         fragment_category = (FrameLayout) view.findViewById(R.id.fragment_category);
 
+        reset_icons(1);
+        CategoryFragment categoryFragment = new CategoryFragment();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_category,categoryFragment).commit();
+
         contestants_icon.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
