@@ -34,6 +34,7 @@ import static android.R.attr.action;
 
 public class LikeFragment extends Fragment {
     TextView no_of_likes;
+    TextView no_of_posts;
     LikeFragmentAdapter likeFragmentAdapter;
     ArrayList<Integer> images;
     GridView gridView;
@@ -42,7 +43,7 @@ public class LikeFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.likes_fragment,container,false);
 
-        gridView = (GridView) view.findViewById(R.id.like_images);
+        gridView = (GridView) view.findViewById(R.id.gallery_images);
         item_image = (ImageView) view.findViewById(R.id.item_image);
         item_name  = (TextView) view.findViewById(R.id.item_name);
         back_btn   = (ImageView) view.findViewById(R.id.back_btn);
@@ -71,6 +72,7 @@ public class LikeFragment extends Fragment {
             }
         });
         no_of_likes = (TextView) view.findViewById(R.id.no_of_likes);
+        no_of_posts = (TextView) view.findViewById(R.id.user_no_posts);
         get_member_details();
         return view;
 
@@ -101,6 +103,7 @@ public class LikeFragment extends Fragment {
                             JsonObject jsonObject = result.get(0).getAsJsonObject();
                             item_name.setText(jsonObject.get("name").getAsString());
                             no_of_likes.setText(String.valueOf(jsonObject.get("post_likes").getAsJsonArray().size()));
+                            no_of_posts.setText(String.valueOf(jsonObject.get("posts").getAsJsonArray().size()));
                             JsonArray posts_aray = jsonObject.get("posts").getAsJsonArray();
                             for (int i = 0; i < posts_aray.size(); i++) {
                                 Posts posts = new Posts(posts_aray.get(i).getAsJsonObject(), getActivity());
