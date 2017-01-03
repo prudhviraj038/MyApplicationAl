@@ -1,5 +1,10 @@
 package app.mamac.albadiya;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,10 +21,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -48,6 +57,8 @@ import static android.R.attr.pointerIcon;
 import static android.R.attr.popupAnimationStyle;
 import static android.R.attr.resource;
 import static android.R.attr.theme;
+import static app.mamac.albadiya.R.id.home;
+import static app.mamac.albadiya.R.id.user_name;
 
 /**
  * Created by T on 08-12-2016.
@@ -60,7 +71,9 @@ public class HomeProfileAdapter extends BaseAdapter {
     HashMap<Integer,Boolean> flags;
     HashMap<Integer,Integer> likes;
     HomeProfile homeProfile;
+
     private GestureDetector gestureDetector;
+    private GestureDetector detector;
 //    ArrayList<String> mnames;
 //    ArrayList<Integer> mimages;
 
@@ -165,13 +178,11 @@ public class HomeProfileAdapter extends BaseAdapter {
         }
         else {
             user_like.setBackgroundResource(R.drawable.ic_likes_vi);
-
         }
         user_like.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 flags.put(position,!flags.get(position));
 
                 if (flags.get(position) ) {
@@ -198,12 +209,29 @@ public class HomeProfileAdapter extends BaseAdapter {
                 }
         });
 
+        heartImageView = (ImageView) item_view.findViewById(R.id.heart);
+        circleBackground = item_view.findViewById(R.id.circleBg);
+
+
+//        detector = new GestureDetector(context, new GestureListener());
+//        item_image.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                user_like.performClick();
+//                return detector.onTouchEvent(event);
+//
+//            }
+//
+//        });
+
+
        item_image.setOnTouchListener(new View.OnTouchListener() {
            private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                @Override
                public boolean onDoubleTap(MotionEvent e) {
                    Log.d("TEST", "onDoubleTap");
                    user_like.performClick();
+                   heart();
                    return super.onDoubleTap(e);
                }
                // implement here other callback methods like onFling, onScroll as necessary
@@ -212,12 +240,10 @@ public class HomeProfileAdapter extends BaseAdapter {
            @Override
            public boolean onTouch(View v, MotionEvent event) {
                Log.d("TEST", "Raw event: " + event.getAction() + ", (" + event.getRawX() + ", " + event.getRawY() + ")");
-               user_like.performClick();
                gestureDetector.onTouchEvent(event);
                return true;
            }
        });
-
 
 //       item_image.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -241,20 +267,98 @@ public class HomeProfileAdapter extends BaseAdapter {
         });
 
 
-      user_image.setOnClickListener(new View.OnClickListener() {
+        user_image.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             homeProfile.go_to_user_profile(posts.get(position).user_id);
            }
-      });
-
-       item_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             homeProfile.go_to_user_profile(posts.get(position).user_id);
-            }
         });
 
+        item_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            homeProfile.go_to_user_profile(posts.get(position).user_id);
+          }
+        });
+
+
         return item_view;
+    }
+
+//    GestureListener Inner Class
+//    public class GestureListener extends GestureDetector.SimpleOnGestureListener {
+//
+//        @Override
+//        public boolean onDown(MotionEvent e) {
+//            Log.e("heart","onDown");
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean onDoubleTap(MotionEvent e) {
+//            Log.e("test","DoubleClick");
+//            heart();
+//            return true;
+//        }
+//    }
+
+    private ImageView heartImageView;
+    private View circleBackground;
+
+    private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
+    private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
+
+    private void heart() {
+        circleBackground.setVisibility(View.VISIBLE);
+        heartImageView.setVisibility(View.VISIBLE);
+
+        circleBackground.setScaleY(0.1f);
+        circleBackground.setScaleX(0.1f);
+        circleBackground.setAlpha(1f);
+        heartImageView.setScaleY(0.1f);
+        heartImageView.setScaleX(0.1f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        ObjectAnimator bgScaleYAnim = ObjectAnimator.ofFloat(circleBackground, "scaleY", 0.1f, 1f);
+        bgScaleYAnim.setDuration(200);
+        bgScaleYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator bgScaleXAnim = ObjectAnimator.ofFloat(circleBackground, "scaleX", 0.1f, 1f);
+        bgScaleXAnim.setDuration(200);
+        bgScaleXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator bgAlphaAnim = ObjectAnimator.ofFloat(circleBackground, "alpha", 1f, 0f);
+        bgAlphaAnim.setDuration(200);
+        bgAlphaAnim.setStartDelay(150);
+        bgAlphaAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+
+        ObjectAnimator imgScaleUpYAnim = ObjectAnimator.ofFloat(heartImageView, "scaleY", 0.1f, 1f);
+        imgScaleUpYAnim.setDuration(300);
+        imgScaleUpYAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+        ObjectAnimator imgScaleUpXAnim = ObjectAnimator.ofFloat(heartImageView, "scaleX", 0.1f, 1f);
+        imgScaleUpXAnim.setDuration(300);
+        imgScaleUpXAnim.setInterpolator(DECCELERATE_INTERPOLATOR);
+
+        ObjectAnimator imgScaleDownYAnim = ObjectAnimator.ofFloat(heartImageView, "scaleY", 1f, 0f);
+        imgScaleDownYAnim.setDuration(300);
+        imgScaleDownYAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+        ObjectAnimator imgScaleDownXAnim = ObjectAnimator.ofFloat(heartImageView, "scaleX", 1f, 0f);
+        imgScaleDownXAnim.setDuration(300);
+        imgScaleDownXAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
+
+        animatorSet.playTogether(bgScaleYAnim, bgScaleXAnim, bgAlphaAnim, imgScaleUpYAnim, imgScaleUpXAnim);
+        animatorSet.play(imgScaleDownYAnim).with(imgScaleDownXAnim).after(imgScaleUpYAnim);
+
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                reset();
+            }
+        });
+        animatorSet.start();
+    }
+
+    public void reset() {
+        circleBackground.setVisibility(View.GONE);
+        heartImageView.setVisibility(View.GONE);
     }
 }
