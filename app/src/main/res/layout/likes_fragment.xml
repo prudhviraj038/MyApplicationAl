@@ -155,7 +155,8 @@
         android:layout_width="match_parent"
         android:background="#000"
         android:layout_marginTop="15dp"
-        android:layout_height="1dp"></LinearLayout>
+        android:layout_height="1dp"
+        android:visibility="gone"></LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
