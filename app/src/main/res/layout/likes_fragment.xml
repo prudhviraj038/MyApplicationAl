@@ -1,19 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:background="#e6d82e">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/back_btn"
+            android:id="@+id/back_btn"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/item_name"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#ffffff"
+            android:gravity="center_vertical"
+            android:textStyle="normal|bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:text="your likes"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/no_of_likes"
-            android:padding="10dp"
-            android:gravity="center_vertical|center_horizontal" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:srcCompat="@drawable/ic_profile"
+                android:id="@+id/item_image" />
+
+            <TextView
+                android:text="Likes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/no_of_likes"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/like_images"
+            android:layout_marginTop="10dp"
+            android:numColumns="2" />
+
     </LinearLayout>
+
 </LinearLayout>
