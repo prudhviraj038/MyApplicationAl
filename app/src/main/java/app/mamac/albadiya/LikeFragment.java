@@ -33,8 +33,8 @@ import static android.R.attr.action;
  */
 
 public class LikeFragment extends Fragment {
-    TextView no_of_likes;
-    TextView no_of_posts;
+    //TextView no_of_likes;
+    //TextView no_of_posts;
     LikeFragmentAdapter likeFragmentAdapter;
     ArrayList<Integer> images;
     GridView gridView;
@@ -44,16 +44,16 @@ public class LikeFragment extends Fragment {
         final View view = inflater.inflate(R.layout.likes_fragment,container,false);
 
         gridView = (GridView) view.findViewById(R.id.gallery_images);
-        item_image = (ImageView) view.findViewById(R.id.item_image);
-        item_name  = (TextView) view.findViewById(R.id.item_name);
-        back_btn   = (ImageView) view.findViewById(R.id.back_btn);
+        //item_image = (ImageView) view.findViewById(R.id.item_image);
+        //item_name  = (TextView) view.findViewById(R.id.item_name);
+        //back_btn   = (ImageView) view.findViewById(R.id.back_btn);
 
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+//        back_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().onBackPressed();
+//            }
+//        });
 
         postsfrom_api = new ArrayList<>();
         images = new ArrayList<>();
@@ -68,18 +68,17 @@ public class LikeFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             }
         });
-        no_of_likes = (TextView) view.findViewById(R.id.no_of_likes);
-        no_of_posts = (TextView) view.findViewById(R.id.user_no_posts);
+        //no_of_likes = (TextView) view.findViewById(R.id.no_of_likes);
+        //no_of_posts = (TextView) view.findViewById(R.id.user_no_posts);
         get_member_details();
         return view;
 
     }
 
-    ImageView item_image;
-    TextView item_name;
+    //ImageView item_image;
+    //TextView item_name;
 
 
 
@@ -101,21 +100,22 @@ public class LikeFragment extends Fragment {
                             progressDialog.dismiss();
                         try {
                             JsonObject jsonObject = result.get(0).getAsJsonObject();
-                            item_name.setText(jsonObject.get("name").getAsString());
-                            no_of_likes.setText(String.valueOf(jsonObject.get("post_likes").getAsJsonArray().size()));
-                            no_of_posts.setText(String.valueOf(jsonObject.get("posts").getAsJsonArray().size()));
-                            JsonArray posts_aray = jsonObject.get("posts").getAsJsonArray();
+                            //item_name.setText(jsonObject.get("name").getAsString());
+                            //no_of_likes.setText(String.valueOf(jsonObject.get("post_likes").getAsJsonArray().size()));
+                            //no_of_posts.setText(String.valueOf(jsonObject.get("posts").getAsJsonArray().size()));
+                            JsonArray posts_aray = jsonObject.get("post_likes").getAsJsonArray();
                             for (int i = 0; i < posts_aray.size(); i++) {
                                 Posts posts = new Posts(posts_aray.get(i).getAsJsonObject(), getActivity());
                                 postsfrom_api.add(posts);
                             }
-                            likeFragmentAdapter.notify();
 
-                            Ion.with(getActivity())
-                                    .load(jsonObject.get("image").getAsString())
-                                    .withBitmap()
-                                    .placeholder(R.drawable.ic_profile)
-                                    .intoImageView(item_image);
+                            likeFragmentAdapter.notifyDataSetChanged();
+
+//                            Ion.with(getActivity())
+//                                    .load(jsonObject.get("image").getAsString())
+//                                    .withBitmap()
+//                                    .placeholder(R.drawable.ic_profile)
+//                                    .intoImageView(item_image);
 
                         }catch (Exception ex){
                             ex.printStackTrace();

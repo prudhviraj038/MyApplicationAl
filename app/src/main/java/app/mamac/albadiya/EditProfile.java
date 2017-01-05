@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,8 @@ public class EditProfile extends Fragment {
     ImageView images_post;
     String member_id;
     ImageView settings;
+    ImageView edit_image_btn;
+    ImageView posts_list;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.activity_editprofile,container,false);
@@ -53,9 +57,11 @@ public class EditProfile extends Fragment {
             member_id=Settings.GetUserId(getActivity());
 
         edit_btn = (TextView) view.findViewById(R.id.edit_btn);
+        edit_image_btn = (ImageView) view.findViewById(R.id.edit_image_btn);
         if(member_id.equals(Settings.GetUserId(getActivity())))
         {
             edit_btn.setText("Edit Profile");
+            edit_image_btn.setImageResource(R.drawable.ic_pencil);
             edit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,10 +70,19 @@ public class EditProfile extends Fragment {
 
                 }
             });
+
+            edit_image_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(),ChatScreen.class);
+                    startActivity(intent);
+                }
+            });
         }
         else{
             edit_btn.setTag(1);
             edit_btn.setText("Follow");
+            edit_image_btn.setImageResource(R.drawable.ic_chats);
             edit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -154,17 +169,20 @@ public class EditProfile extends Fragment {
         no_of_followers = (TextView) view.findViewById(R.id.followers);
         no_of_following = (TextView) view.findViewById(R.id.following);
         images_post = (ImageView) view.findViewById(R.id.images_post);
-        images_post.setOnClickListener(new View.OnClickListener() {
+
+        FrameLayout grid_framelayout;
+        grid_framelayout = (FrameLayout) view.findViewById(R.id.grid_framelayout);
+        posts_list = (ImageView) view.findViewById(R.id.posts_list);
+        posts_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editProfileAdapter = new EditProfileAdapter(getActivity(),postsfrom_api);
-                gridView.setAdapter(editProfileAdapter);
-                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // Toast.makeText(getActivity(),images.get(position),Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if(member_id.equals(Settings.GetUserId(getActivity()))){
+                    HomeProfile homeProfile = new HomeProfile();
+                    getFragmentManager().beginTransaction().replace(R.id.grid_framelayout,homeProfile).commit();
+                }else {
+
+                }
+
             }
         });
         get_member_details();

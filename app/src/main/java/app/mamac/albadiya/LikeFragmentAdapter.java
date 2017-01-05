@@ -42,7 +42,7 @@ public class LikeFragmentAdapter  extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View item_view = inflater.inflate(R.layout.likes_fragment,null);
+        View item_view = inflater.inflate(R.layout.like_fragment_list,null);
         ImageView item_image = (ImageView) item_view.findViewById(R.id.item_image);
         Ion.with(context)
                 .load(mimages.get(position).image)
