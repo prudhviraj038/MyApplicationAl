@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by T on 23-12-2016.
@@ -13,14 +16,16 @@ import android.widget.BaseAdapter;
 public class ChatScreenAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
+    ArrayList<Chats> chats;
 
-    public ChatScreenAdapter(Context context){
+    public ChatScreenAdapter(Context context,ArrayList<Chats> chats){
         this.context = context;
+        this.chats = chats;
         inflater = LayoutInflater.from(context);
     }
     @Override
     public int getCount() {
-        return 10;
+        return chats.size();
     }
 
     @Override
@@ -36,6 +41,8 @@ public class ChatScreenAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final View item_view = inflater.inflate(R.layout.chatlist_item,null);
+        TextView description = (TextView) item_view.findViewById(R.id.description);
+        description.setText(chats.get(position).description);
         return item_view;
     }
 }
