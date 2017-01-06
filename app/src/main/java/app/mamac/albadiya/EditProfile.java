@@ -29,6 +29,8 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 import static android.R.attr.action;
+import static android.R.attr.name;
+import static android.R.attr.state_empty;
 
 /**
  * Created by T on 12-12-2016.
@@ -56,6 +58,7 @@ public class EditProfile extends Fragment {
         else
             member_id=Settings.GetUserId(getActivity());
 
+
         edit_btn = (TextView) view.findViewById(R.id.edit_btn);
         edit_image_btn = (ImageView) view.findViewById(R.id.edit_image_btn);
         if(member_id.equals(Settings.GetUserId(getActivity())))
@@ -71,18 +74,20 @@ public class EditProfile extends Fragment {
                 }
             });
 
-            edit_image_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),ChatScreen.class);
-                    startActivity(intent);
-                }
-            });
+
         }
         else{
             edit_btn.setTag(1);
             edit_btn.setText("Follow");
             edit_image_btn.setImageResource(R.drawable.ic_chats);
+            edit_image_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(),ChatScreen.class);
+                    intent.putExtra("receiver_id",member_id);
+                    startActivity(intent);
+                }
+            });
             edit_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
@@ -116,6 +121,8 @@ public class EditProfile extends Fragment {
 
 
         }
+
+
         settings = (ImageView) view.findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +158,9 @@ public class EditProfile extends Fragment {
 //        });
         postsfrom_api = new ArrayList<>();
         images = new ArrayList<>();
+
+
+
         images.add(R.drawable.banner3);
         images.add(R.drawable.timeline);
         images.add(R.drawable.amazon);
@@ -170,21 +180,21 @@ public class EditProfile extends Fragment {
         no_of_following = (TextView) view.findViewById(R.id.following);
         images_post = (ImageView) view.findViewById(R.id.images_post);
 
-        FrameLayout grid_framelayout;
-        grid_framelayout = (FrameLayout) view.findViewById(R.id.grid_framelayout);
-        posts_list = (ImageView) view.findViewById(R.id.posts_list);
-        posts_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(member_id.equals(Settings.GetUserId(getActivity()))){
-                    HomeProfile homeProfile = new HomeProfile();
-                    getFragmentManager().beginTransaction().replace(R.id.grid_framelayout,homeProfile).commit();
-                }else {
-
-                }
-
-            }
-        });
+//        FrameLayout grid_framelayout;
+//        grid_framelayout = (FrameLayout) view.findViewById(R.id.grid_framelayout);
+//        posts_list = (ImageView) view.findViewById(R.id.posts_list);
+//        posts_list.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(member_id.equals(Settings.GetUserId(getActivity()))){
+//                    HomeProfile homeProfile = new HomeProfile();
+//                    getFragmentManager().beginTransaction().replace(R.id.grid_framelayout,homeProfile).commit();
+//                }else {
+//
+//                }
+//
+//            }
+//        });
         get_member_details();
 
     //    get_posts();
