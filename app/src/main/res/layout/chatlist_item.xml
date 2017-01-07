@@ -7,9 +7,9 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -21,9 +21,9 @@
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/textView57"
+                android:id="@+id/description"
                 android:gravity="center"
-                android:background="#f5f4c1" />
+                android:background="@drawable/linearlayout_bg" />
 
         </LinearLayout>
 
@@ -46,9 +46,9 @@
                 android:text="TextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/textView60"
+                android:id="@+id/reciver_message"
                 android:gravity="center"
-                android:background="#fffcdd" />
+                android:background="@drawable/linearlayout_bg" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
