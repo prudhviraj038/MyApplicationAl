@@ -122,10 +122,6 @@ public class ChatScreen extends Activity {
 
 
     public void get_chats(){
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("please wait..");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
         String url = Settings.SERVER_URL+"chats.php";
         Ion.with(this)
                 .load(url)
@@ -135,8 +131,6 @@ public class ChatScreen extends Activity {
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
-                        if (progressDialog!=null)
-                            progressDialog.dismiss();
                             Log.e("response", String.valueOf(result.size()));
                             for (int i = 0; i < result.size(); i++) {
                                 Chats chats = new Chats(result.get(i).getAsJsonObject(),ChatScreen.this);

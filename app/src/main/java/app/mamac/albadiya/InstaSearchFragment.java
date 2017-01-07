@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -118,12 +119,18 @@ public class InstaSearchFragment extends Fragment {
     }
 
     public void get_members(){
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("please wait..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         Ion.with(this)
                 .load(Settings.SERVER_URL+"members.php")
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+                        if (progressDialog!=null)
+                            progressDialog.dismiss();
                         if (e != null) {
                             e.printStackTrace();
                         } else {

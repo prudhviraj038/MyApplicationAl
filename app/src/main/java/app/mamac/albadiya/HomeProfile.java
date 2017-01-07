@@ -3,6 +3,7 @@ package app.mamac.albadiya;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class HomeProfile extends Fragment {
     ArrayList<Integer> image;
     ArrayList<Posts> postsfrom_api;
     ImageView chat_screen;
+    ImageView settings;
     UserProfileSelectedListner mCallback;
     public interface UserProfileSelectedListner {
 
@@ -68,8 +70,17 @@ public class HomeProfile extends Fragment {
         chat_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ChatScreen.class);
-                startActivity(intent);
+                Intent chats = new Intent(getActivity(),ChatScreen.class);
+                startActivity(chats);
+            }
+        });
+
+        settings = (ImageView) view.findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment,settingsFragment).commit();
             }
         });
 
