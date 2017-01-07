@@ -140,6 +140,7 @@ public class HomeProfile extends Fragment {
         progressDialog.show();
         Ion.with(this)
                 .load(Settings.SERVER_URL+"posts.php")
+                .setBodyParameter("member_id",Settings.GetUserId(getActivity()))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
