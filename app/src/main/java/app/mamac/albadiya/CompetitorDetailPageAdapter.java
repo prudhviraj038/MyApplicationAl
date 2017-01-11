@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.content.Context;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+
+import javax.crypto.AEADBadTagException;
 
 /**
  * Created by T on 19-12-2016.
@@ -28,12 +32,11 @@ public class CompetitorDetailPageAdapter extends BaseAdapter {
         this.context = context;
         this.competitors = competitors;
         inflater = LayoutInflater.from(context);
-        mbaners = baners;
-        Log.e("output",String.valueOf(this.competitors.size()));
+       mbaners = baners;
     }
     @Override
     public int getCount() {
-        return competitors.size();
+        return mbaners.size();
 
     }
 
@@ -50,10 +53,19 @@ public class CompetitorDetailPageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final View item_view = inflater.inflate(R.layout.competitors_detail_page_items,null);
-//        ImageView image = (ImageView) item_view.findViewById(R.id.image);
-//        image.setImageResource(mbaners.get(position));
-        TextView  item_title = (TextView) item_view.findViewById(R.id.item_title);
-        item_title.setText(competitors.get(position).title);
+        ImageView item_image = (ImageView) item_view.findViewById(R.id.item_image);
+//        Ion.with(context)
+//                .load(competitors.get(position).image)
+//                .withBitmap()
+//                .placeholder(R.drawable.ic_profile)
+//                .intoImageView(item_image);
+       item_image.setImageResource(mbaners.get(position));
         return item_view;
     }
+
+
+
+
+
+
 }

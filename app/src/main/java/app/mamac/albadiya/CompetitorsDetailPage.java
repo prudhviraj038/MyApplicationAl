@@ -46,6 +46,7 @@ public class CompetitorsDetailPage extends Activity {
     String image;
     String date;
     String participant;
+    String images;
     ArrayList<Competitors> competitersfrom_api;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -67,7 +68,10 @@ public class CompetitorsDetailPage extends Activity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CompetitorsDetailPage.this,baners.get(position),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CompetitorsDetailPage.this,baners.get(position),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CompetitorsDetailPage.this,CompetitorsVoteActivity.class);
+                intent.putExtra("images",baners.get(position));
+                startActivity(intent);
             }
         });
         item_name = (TextView) findViewById(R.id.item_name);
@@ -104,6 +108,9 @@ public class CompetitorsDetailPage extends Activity {
                    .intoImageView(item_image);
            participant= getIntent().getStringExtra("participants");
            participants.setText(participant);
+
+
+
 
        }
     }
