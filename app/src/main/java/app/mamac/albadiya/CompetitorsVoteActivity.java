@@ -13,6 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,13 +26,20 @@ public class CompetitorsVoteActivity extends Activity {
     TextView click_vote;
     ImageView back_btn;
     String image;
-    ArrayList<Competitors> competions;
+    String competition_id;
+    String image_id;
+
+
+
+    ArrayList<Competitors> competionsfrom_api;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competitors_vote);
 
-        competions = new ArrayList<>();
+        competionsfrom_api = new ArrayList<>();
+
+
 
         item_image = (ImageView) findViewById(R.id.item_image);
         back_btn   = (ImageView) findViewById(R.id.back_btn);
@@ -49,8 +57,8 @@ public class CompetitorsVoteActivity extends Activity {
                 Ion.with(CompetitorsVoteActivity.this)
                         .load(Settings.SERVER_URL + "vote.php")
                         .setBodyParameter("member_id",Settings.GetUserId(CompetitorsVoteActivity.this))
-                        .setBodyParameter("image_id","2")
-                        .setBodyParameter("competition_id","1")
+                        .setBodyParameter("image_id",image_id)
+                        .setBodyParameter("competition_id",competition_id)
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
@@ -74,8 +82,18 @@ public class CompetitorsVoteActivity extends Activity {
             }
         });
 
-        Bundle bundle = this.getIntent().getExtras();
-        item_image.setImageResource(bundle.getInt("image"));
+        //Bundle bundle = this.getIntent().getExtras();
+        if (getIntent()!=null) {
+            image = getIntent().getStringExtra("images");
+            Ion.with(this)
+                    .load(image)
+                    .withBitmap()
+                    .placeholder(R.drawable.placeholder)
+                    .intoImageView(item_image);
+
+            competition_id = getIntent().getStringExtra("id");
+            image_id = getIntent().getStringExtra("image_id");
+        }
         //int item_image = bundle.getInt("image");
     }
 }

@@ -24,19 +24,19 @@ import javax.crypto.AEADBadTagException;
 public class CompetitorDetailPageAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
-    ArrayList<Competitors> competitors;
+    Competitors competitors;
     ArrayList<Integer>  mbaners;
 
 
-    protected CompetitorDetailPageAdapter(Context context,ArrayList<Competitors> competitors,ArrayList<Integer> baners){
+    protected CompetitorDetailPageAdapter(Context context,Competitors competitors){
         this.context = context;
         this.competitors = competitors;
         inflater = LayoutInflater.from(context);
-       mbaners = baners;
+
     }
     @Override
     public int getCount() {
-        return mbaners.size();
+        return competitors.images.size();
 
     }
 
@@ -54,12 +54,12 @@ public class CompetitorDetailPageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final View item_view = inflater.inflate(R.layout.competitors_detail_page_items,null);
         ImageView item_image = (ImageView) item_view.findViewById(R.id.item_image);
-//        Ion.with(context)
-//                .load(competitors.get(position).image)
-//                .withBitmap()
-//                .placeholder(R.drawable.ic_profile)
-//                .intoImageView(item_image);
-       item_image.setImageResource(mbaners.get(position));
+        Ion.with(context)
+                .load(competitors.images.get(position).image)
+                .withBitmap()
+                .placeholder(R.drawable.ic_profile)
+                .intoImageView(item_image);
+      // item_image.setImageResource(mbaners.get(position));
         return item_view;
     }
 

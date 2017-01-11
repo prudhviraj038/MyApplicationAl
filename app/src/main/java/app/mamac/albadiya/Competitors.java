@@ -38,7 +38,7 @@ public class Competitors implements Serializable{
 
     }
 
-    private class Images implements  Serializable{
+    public class Images implements  Serializable{
 
         public String id,title,description,image,mid,mname,mimage;
 

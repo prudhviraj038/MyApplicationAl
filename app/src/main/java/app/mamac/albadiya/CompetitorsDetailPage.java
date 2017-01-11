@@ -47,14 +47,14 @@ public class CompetitorsDetailPage extends Activity {
     String date;
     String participant;
     String images;
-    ArrayList<Competitors> competitersfrom_api;
+    Competitors competitersfrom_api;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competitors_detail_page);
         gridView = (GridView) findViewById(R.id.gallery_images);
 
-        competitersfrom_api = new ArrayList<>();
+
 
         baners = new ArrayList<>();
         baners.add(R.drawable.banner3);
@@ -63,16 +63,14 @@ public class CompetitorsDetailPage extends Activity {
         baners.add(R.drawable.banner1);
         baners.add(R.drawable.banner);
 
-        competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api,baners);
-        gridView.setAdapter(competitorDetailPageAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(CompetitorsDetailPage.this,baners.get(position),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CompetitorsDetailPage.this,CompetitorsVoteActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("image", baners.get(position));
-                intent.putExtras(bundle);
+                intent.putExtra("images",competitersfrom_api.images.get(position).image);
+                intent.putExtra("id",competitersfrom_api.id);
+                intent.putExtra("image_id",competitersfrom_api.images.get(position).id);
                 startActivity(intent);
             }
         });
@@ -92,6 +90,7 @@ public class CompetitorsDetailPage extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CompetitorsDetailPage.this,CompetitorAddPost.class);
+                intent.putExtra("id",competitersfrom_api.id);
                 startActivity(intent);
             }
         });
@@ -109,8 +108,11 @@ public class CompetitorsDetailPage extends Activity {
                    .placeholder(R.drawable.ic_profile)
                    .intoImageView(item_image);
            participant= getIntent().getStringExtra("participants");
+           competitersfrom_api = (Competitors)getIntent().getSerializableExtra("competitors");
            participants.setText(participant);
 
+           competitorDetailPageAdapter = new CompetitorDetailPageAdapter(this,competitersfrom_api);
+           gridView.setAdapter(competitorDetailPageAdapter);
 
 
 

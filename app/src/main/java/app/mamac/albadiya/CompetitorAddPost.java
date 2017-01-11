@@ -36,6 +36,7 @@ public class CompetitorAddPost extends Activity {
     EditText item_description;
     ImageView item_image;
     ImageView submit_btn;
+    String competition_id;
 
      @Override
     public void onCreate(Bundle savedInstanceState){
@@ -59,6 +60,10 @@ public class CompetitorAddPost extends Activity {
                 CompetitorAddPost.this.onBackPressed();
             }
         });
+
+         if (getIntent()!=null){
+             competition_id = getIntent().getStringExtra("id");
+         }
 
 
          submit_btn.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +98,7 @@ public class CompetitorAddPost extends Activity {
                                 }
                             })
                             .setMultipartParameter("member_id", Settings.GetUserId(CompetitorAddPost.this))
-                            .setMultipartParameter("competition_id","2")
+                            .setMultipartParameter("competition_id",competition_id)
                             .setMultipartParameter("title", title_string)
                             .setMultipartParameter("description", description_string)
                             .setMultipartFile("file", "image/png", new File(selected_image_path))

@@ -74,6 +74,7 @@ public class InstaContestants extends Fragment {
                 intent.putExtra("end_date",competitorsfrom_api.get(position).end_date);
                 intent.putExtra("participants",String.valueOf(competitorsfrom_api.get(position).images.size()));
                 intent.putExtra("id",competitorsfrom_api.get(position).id);
+
                 startActivity(intent);
             }
         });
