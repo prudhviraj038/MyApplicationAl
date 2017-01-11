@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class CompetitorsVoteActivity extends Activity {
     ImageView item_image;
     TextView click_vote;
-    String image_title;
+    ImageView back_btn;
     String image;
     ArrayList<Competitors> competions;
     @Override
@@ -34,37 +34,48 @@ public class CompetitorsVoteActivity extends Activity {
         competions = new ArrayList<>();
 
         item_image = (ImageView) findViewById(R.id.item_image);
+        back_btn   = (ImageView) findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CompetitorsVoteActivity.this.onBackPressed();
+            }
+        });
         click_vote = (TextView) findViewById(R.id.click_vote);
         click_vote.setTag(1);
         click_vote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Ion.with(CompetitorsVoteActivity.this)
-                        .load("http://mamacgroup.com/albadiya/api/vote.php")
+                        .load(Settings.SERVER_URL + "vote.php")
                         .setBodyParameter("member_id",Settings.GetUserId(CompetitorsVoteActivity.this))
                         .setBodyParameter("image_id","2")
                         .setBodyParameter("competition_id","1")
-                        .asJsonArray()
-                        .setCallback(new FutureCallback<JsonArray>() {
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
                             @Override
-                            public void onCompleted(Exception e, JsonArray result) {
-                                final int status =(Integer) v.getTag();
-                                if(status == 1) {
-                                    click_vote.setText("voted");
-                                    Toast.makeText(CompetitorsVoteActivity.this,"Voted Successfully",Toast.LENGTH_SHORT).show();
-                                    v.setTag(0);
-                                } else {
-                                    click_vote.setText("vote");
-                                    v.setTag(1);
+                            public void onCompleted(Exception e, JsonObject result) {
+                                if (result.get("status").getAsString().equals("Success")){
+                                    final int status =(Integer) v.getTag();
+                                    if(status == 1) {
+                                        click_vote.setText("voted");
+                                        Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                        v.setTag(0);
+                                    } else {
+                                        click_vote.setText("vote");
+                                        v.setTag(1);
+                                    }
+                                }else{
+                                    Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                 }
+
                             }
                         });
             }
         });
 
-        if (getIntent()!=null){
-          image = getIntent().getStringExtra("images");
-
-        }
+        Bundle bundle = this.getIntent().getExtras();
+        item_image.setImageResource(bundle.getInt("image"));
+        //int item_image = bundle.getInt("image");
     }
 }
