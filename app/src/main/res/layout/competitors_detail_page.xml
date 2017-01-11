@@ -43,7 +43,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:id="@+id/imageView50"
-                android:src="@drawable/ic_settings_vi"
                 android:adjustViewBounds="true" />
         </LinearLayout>
     </LinearLayout>
