@@ -70,7 +70,9 @@ public class CompetitorsDetailPage extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(CompetitorsDetailPage.this,baners.get(position),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CompetitorsDetailPage.this,CompetitorsVoteActivity.class);
-                intent.putExtra("images",baners.get(position));
+                Bundle bundle = new Bundle();
+                bundle.putInt("image", baners.get(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
