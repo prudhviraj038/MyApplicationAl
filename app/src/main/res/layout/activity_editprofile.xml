@@ -184,7 +184,8 @@
                         android:layout_width="wrap_content"
                         android:src="@drawable/ic_pencil"
                         android:layout_height="38dp"
-                        android:adjustViewBounds="false" />
+                        android:adjustViewBounds="false"
+                        android:id="@+id/edit_image_btn" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -221,7 +222,7 @@
 
             <ImageView
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView54"
+                android:id="@+id/posts_list"
                 android:src="@drawable/ic_gall"
                 android:layout_width="match_parent"
                 android:adjustViewBounds="false"
@@ -237,11 +238,17 @@
         android:background="#000"
         android:layout_height="1dp"></LinearLayout>
 
-    <GridView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gallery_images"
-        android:numColumns="2"
-        android:layout_marginTop="10dp" />
+        android:id="@+id/grid_framelayout">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gallery_images"
+            android:numColumns="2"
+            android:layout_marginTop="10dp" />
+    </FrameLayout>
 
 </LinearLayout>
