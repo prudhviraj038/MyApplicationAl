@@ -26,14 +26,12 @@ public class CompetitorsVoteActivity extends Activity {
     String image_title;
     String image;
     ArrayList<Competitors> competions;
-    ArrayList<Competitors.Images> images;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.competitors_vote);
 
         competions = new ArrayList<>();
-        images = new ArrayList<>();
 
         item_image = (ImageView) findViewById(R.id.item_image);
         click_vote = (TextView) findViewById(R.id.click_vote);
