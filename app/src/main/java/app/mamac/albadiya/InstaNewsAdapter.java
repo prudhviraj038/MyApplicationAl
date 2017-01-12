@@ -53,6 +53,9 @@ public class InstaNewsAdapter extends BaseAdapter {
                 .withBitmap()
                 .placeholder(R.drawable.ic_profile)
                 .intoImageView(item_image);
+        TextView item_description = (TextView) item_view.findViewById(R.id.item_description);
+        item_description.setText(news.get(position).description);
+
         return item_view;
     }
 }
