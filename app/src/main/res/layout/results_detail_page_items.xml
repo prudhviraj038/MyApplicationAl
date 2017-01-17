@@ -9,9 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:layout_width="90dp"
@@ -21,13 +19,34 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
-        <TextView
-            android:text="TextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/votes_count"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_title"
+                android:gravity="center_vertical" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_description"
+                android:minLines="2" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/votes_count" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>
