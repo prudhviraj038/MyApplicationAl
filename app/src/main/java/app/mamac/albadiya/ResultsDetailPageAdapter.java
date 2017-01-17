@@ -58,6 +58,10 @@ public class ResultsDetailPageAdapter extends BaseAdapter {
                 .placeholder(R.drawable.ic_profile)
                 .intoImageView(item_image);
        votes_count.setText(results.posts.get(position).votes_count);
+        TextView item_title = (TextView) item_view.findViewById(R.id.item_title);
+        item_title.setText(results.posts.get(position).title);
+        TextView item_description = (TextView) item_view.findViewById(R.id.item_description);
+        item_description.setText(results.posts.get(position).description);
         return item_view;
     }
 }
