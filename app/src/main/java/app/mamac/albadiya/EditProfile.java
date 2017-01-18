@@ -28,6 +28,8 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.R.attr.action;
 import static android.R.attr.name;
 import static android.R.attr.state_empty;
@@ -157,7 +159,7 @@ public class EditProfile extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        item_image = (ImageView) view.findViewById(R.id.item_image);
+        item_image = (CircleImageView) view.findViewById(R.id.item_image);
         //log_out = (TextView) view.findViewById(R.id.log_out_btn);
 //        log_out.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -239,7 +241,7 @@ public class EditProfile extends Fragment {
     }
 
     TextView item_name;
-    ImageView item_image;
+    CircleImageView item_image;
 
 
 

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import java.io.File;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by T on 23-12-2016.
@@ -41,7 +44,7 @@ public class ChatScreen extends Activity {
     String receiver_id;
     ImageView send_btn;
     EditText text_message;
-    ImageView image;
+    CircleImageView image;
     TextView name;
     ImageView select_files;
 
@@ -118,7 +121,7 @@ public class ChatScreen extends Activity {
             }
         });
 
-        image = (ImageView) findViewById(R.id.image);
+        image = (CircleImageView) findViewById(R.id.image);
         name  = (TextView) findViewById(R.id.name);
         select_files = (ImageView) findViewById(R.id.select_files);
         select_files.setOnClickListener(new View.OnClickListener() {
