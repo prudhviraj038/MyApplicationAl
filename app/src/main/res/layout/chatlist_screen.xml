@@ -25,6 +25,16 @@
                     android:background="#e6d82e">
 
                     <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:id="@+id/back_btn"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/back_btn"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:padding="3dp" />
+
+                    <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:id="@+id/image"
