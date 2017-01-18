@@ -47,7 +47,6 @@ public class ChatScreen extends Activity {
 
 
 
-
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatlist_screen);
@@ -65,12 +64,13 @@ public class ChatScreen extends Activity {
         text_message = (EditText) findViewById(R.id.text_message);
 
 
-
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String message =  text_message.getText().toString();
                 if (message.equals("")){
+                    Toast.makeText(ChatScreen.this, "empty_msg", Toast.LENGTH_SHORT).show();
+
                 }else {
                     Ion.with(ChatScreen.this)
                             .load(Settings.SERVER_URL + "chat.php")
@@ -84,6 +84,8 @@ public class ChatScreen extends Activity {
                                 public void onCompleted(Exception e, JsonObject result) {
                                     if (result.get("status").getAsString().equals("Success")){
                                         Toast.makeText(ChatScreen.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                        text_message.setText("");
+                                        get_chats();
                                     }else {
                                         Toast.makeText(ChatScreen.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                     }
@@ -92,9 +94,18 @@ public class ChatScreen extends Activity {
                 }
             }
         });
+
+        ImageView back_btn;
+        back_btn = (ImageView) findViewById(R.id.back_btn);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         chatsfrom_api = new ArrayList<>();
         postsfrom_api = new ArrayList<>();
-
 
 
         chatScreenAdapter = new ChatScreenAdapter(this,chatsfrom_api);
@@ -116,7 +127,8 @@ public class ChatScreen extends Activity {
             }
         });
         get_chats();
-        get_member_details();
+       get_member_details();
+
 
     }
 
@@ -140,6 +152,7 @@ public class ChatScreen extends Activity {
                     }
                 });
     }
+
 
 
     ArrayList<Posts> postsfrom_api;

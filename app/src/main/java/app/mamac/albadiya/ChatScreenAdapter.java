@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class ChatScreenAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Context context;
     ArrayList<Chats> chats;
+
 
     public ChatScreenAdapter(Context context,ArrayList<Chats> chats){
         this.context = context;
@@ -38,11 +40,39 @@ public class ChatScreenAdapter extends BaseAdapter {
         return 0;
     }
 
+    public class Holder
+    {
+        TextView chating_right,chating_left;
+        LinearLayout chat_right,chat_ll_right,chat_left,chat_ll_left;
+
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final View item_view = inflater.inflate(R.layout.chatlist_item,null);
-        TextView description = (TextView) item_view.findViewById(R.id.description);
-        description.setText(chats.get(position).description);
+        Holder holder=new Holder();
+        holder.chat_right=(LinearLayout) item_view.findViewById(R.id.chat_right);
+        holder.chat_ll_right=(LinearLayout) item_view.findViewById(R.id.chat_ll_right);
+        holder.chat_left=(LinearLayout) item_view.findViewById(R.id.chat_left);
+        holder.chat_ll_left=(LinearLayout) item_view.findViewById(R.id.chat_ll_left);
+        holder.chating_right=(TextView) item_view.findViewById(R.id.chating_right);
+        holder.chating_left=(TextView) item_view.findViewById(R.id.chating_left);
+//        TextView description = (TextView) item_view.findViewById(R.id.description);
+//        description.setText(chats.get(position).description);
+
+
+        if(chats.get(position).member_id.equals(Settings.GetUserId(context))) {
+            holder.chat_left.setVisibility(View.GONE);
+            holder.chat_right.setVisibility(View.VISIBLE);
+            holder.chating_right.setText(chats.get(position).description);
+            holder.chat_ll_right.setBackgroundResource(R.drawable.linearlayout_bg);
+        } else {
+            holder.chat_left.setVisibility(View.VISIBLE);
+            holder.chat_right.setVisibility(View.GONE);
+            holder.chating_left.setText(chats.get(position).description);
+            holder.chat_ll_left.setBackgroundResource(R.drawable.linearlayout_bg);
+        }
+
         return item_view;
     }
 }
