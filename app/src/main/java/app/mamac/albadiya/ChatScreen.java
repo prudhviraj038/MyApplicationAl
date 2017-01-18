@@ -128,6 +128,7 @@ public class ChatScreen extends Activity {
         });
 
         get_member_details();
+        get_chats();
 
 
     }
