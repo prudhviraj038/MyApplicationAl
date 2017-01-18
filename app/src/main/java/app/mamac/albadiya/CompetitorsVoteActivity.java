@@ -50,7 +50,12 @@ public class CompetitorsVoteActivity extends Activity {
             }
         });
         click_vote = (TextView) findViewById(R.id.click_vote);
-        click_vote.setTag(1);
+        if(!Settings.GetUserId(CompetitorsVoteActivity.this).equals("-1"))
+            vote_status();
+        else{
+            click_vote.setText("Vote");
+            click_vote.setText("Vote");
+        }
         click_vote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -64,15 +69,8 @@ public class CompetitorsVoteActivity extends Activity {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 if (result.get("status").getAsString().equals("Success")){
-                                    final int status =(Integer) v.getTag();
-                                    if(status == 1) {
-                                        click_vote.setText("voted");
-                                        Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                        v.setTag(0);
-                                    } else {
-                                        click_vote.setText("vote");
-                                        v.setTag(1);
-                                    }
+                                    vote_status();
+
                                 }else{
                                     Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                 }
@@ -95,5 +93,30 @@ public class CompetitorsVoteActivity extends Activity {
             image_id = getIntent().getStringExtra("image_id");
         }
         //int item_image = bundle.getInt("image");
+    }
+
+    String cnt="0";
+    public void vote_status(){
+        Ion.with(this)
+                .load(Settings.SERVER_URL + "vote-status.php")
+                .setBodyParameter("member_id",Settings.GetUserId(this))
+                .setBodyParameter("competition_id",competition_id)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result.get("status").getAsString().equals("Success")){
+                            cnt = result.get("cnt").getAsString();
+                            if (!cnt.equals("0")){
+                                click_vote.setText("Voted");
+                                click_vote.setText("Voted");
+                            }else {
+                                click_vote.setText("Vote");
+                                click_vote.setText("Vote");
+                            }
+                        }
+
+                    }
+                });
     }
 }
