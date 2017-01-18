@@ -53,6 +53,8 @@ public class EditProfile extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.activity_editprofile,container,false);
 
+
+
         if(getArguments()!=null && getArguments().containsKey("member_id"))
             member_id=getArguments().getString("member_id");
         else
@@ -77,8 +79,13 @@ public class EditProfile extends Fragment {
 
         }
         else{
-            edit_btn.setTag(1);
-            edit_btn.setText("Follow");
+            //edit_btn.setTag(1);
+            if(!Settings.GetUserId(getActivity()).equals("-1"))
+                follow_status();
+            else{
+                edit_btn.setText("follow");
+                edit_btn.setText("follow");
+            }
             edit_image_btn.setImageResource(R.drawable.ic_chats);
             edit_image_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,14 +108,16 @@ public class EditProfile extends Fragment {
                                 public void onCompleted(Exception e, JsonObject result) {
                                     if (result.get("status").getAsString().equals("Success")){
                                         Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
-                                        final int status =(Integer) v.getTag();
-                                        if(status == 1) {
-                                            edit_btn.setText("Unfollow");
-                                            v.setTag(0);
-                                        } else {
-                                            edit_btn.setText("Follow");
-                                            v.setTag(1);
-                                        }
+                                        follow_status();
+//                                       final int status =(Integer) v.getTag();
+//                                        if(status == 1) {
+//                                            edit_btn.setText("Unfollow");
+//
+//                                            v.setTag(0);
+//                                        } else {
+//                                            edit_btn.setText("Follow");
+//                                            v.setTag(1);
+//                                        }
 
                                     }else{
                                         Toast.makeText(getContext(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
@@ -121,6 +130,7 @@ public class EditProfile extends Fragment {
 
 
         }
+
 
 
         settings = (ImageView) view.findViewById(R.id.settings);
@@ -201,6 +211,31 @@ public class EditProfile extends Fragment {
 
         return view;
 
+    }
+
+    String cnt="0";
+    public void follow_status(){
+        Ion.with(getActivity())
+                .load(Settings.SERVER_URL+"follow-status.php")
+                .setBodyParameter("member_id",Settings.GetUserId(getActivity()))
+                .setBodyParameter("follower_id",member_id)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result.get("status").getAsString().equals("Success")){
+                            cnt = result.get("cnt").getAsString();
+                            //Toast.makeText(getActivity(),result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                            if (!cnt.equals("0")){
+                                edit_btn.setText("unfollow");
+                                edit_btn.setText("unfollow");
+                            }else{
+                                edit_btn.setText("follow");
+                                edit_btn.setText("follow");
+                            }
+                        }
+                    }
+                });
     }
 
     TextView item_name;
