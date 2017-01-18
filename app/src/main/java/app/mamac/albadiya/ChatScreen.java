@@ -105,6 +105,7 @@ public class ChatScreen extends Activity {
             }
         });
         chatsfrom_api = new ArrayList<>();
+        get_chats();
         postsfrom_api = new ArrayList<>();
 
 
@@ -128,7 +129,6 @@ public class ChatScreen extends Activity {
         });
 
         get_member_details();
-        get_chats();
 
 
     }
