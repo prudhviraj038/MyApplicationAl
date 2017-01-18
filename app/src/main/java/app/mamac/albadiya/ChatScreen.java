@@ -126,8 +126,8 @@ public class ChatScreen extends Activity {
                 show_images();
             }
         });
-        get_chats();
-       get_member_details();
+
+        get_member_details();
 
 
     }
