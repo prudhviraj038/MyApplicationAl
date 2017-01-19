@@ -57,7 +57,9 @@ import static android.R.attr.pointerIcon;
 import static android.R.attr.popupAnimationStyle;
 import static android.R.attr.resource;
 import static android.R.attr.theme;
+import static app.mamac.albadiya.R.id.followers;
 import static app.mamac.albadiya.R.id.home;
+import static app.mamac.albadiya.R.id.imageView;
 import static app.mamac.albadiya.R.id.user_name;
 
 /**
@@ -97,6 +99,8 @@ public class HomeProfileAdapter extends BaseAdapter {
              }
              Log.e("flagvalue",String.valueOf(flags.get(i)));
          }
+
+
 //        mnames = names;
 //        mimages = images;
      }
@@ -116,9 +120,8 @@ public class HomeProfileAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         final  View item_view = inflater.inflate(R.layout.home_fragment,null);
-
         TextView  item_title  = (TextView) item_view.findViewById(R.id.item_title);
         TextView  description = (TextView) item_view.findViewById(R.id.description);
         final TextView  no_of_likes = (TextView) item_view.findViewById(R.id.no_of_likes);
@@ -135,12 +138,14 @@ public class HomeProfileAdapter extends BaseAdapter {
         play_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(context, AndroidVideoPlayerActivity.class);
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
                      intent.putExtra("video", posts.get(position).video);
                     context.startActivity(intent);
 
             }
         });
+
+
 //        item_image.setImageResource(mprofile_image.get(position));
 
         item_title.setText(posts.get(position).title);
@@ -224,8 +229,7 @@ public class HomeProfileAdapter extends BaseAdapter {
 //
 //        });
 
-
-       item_image.setOnTouchListener(new View.OnTouchListener() {
+        item_image.setOnTouchListener(new View.OnTouchListener() {
            private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                @Override
                public boolean onDoubleTap(MotionEvent e) {
@@ -244,6 +248,7 @@ public class HomeProfileAdapter extends BaseAdapter {
                return true;
            }
        });
+
 
 //       item_image.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -266,7 +271,6 @@ public class HomeProfileAdapter extends BaseAdapter {
             }
         });
 
-
         user_image.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -280,7 +284,6 @@ public class HomeProfileAdapter extends BaseAdapter {
             homeProfile.go_to_user_profile(posts.get(position).user_id);
           }
         });
-
 
         return item_view;
     }
@@ -301,6 +304,18 @@ public class HomeProfileAdapter extends BaseAdapter {
 //            return true;
 //        }
 //    }
+
+
+    public class GestureListener extends GestureDetector.SimpleOnGestureListener{
+
+        @Override
+        public boolean onDown(MotionEvent e){
+            Log.e("heart","onDown");
+            return true;
+        }
+    }
+
+
 
     private ImageView heartImageView;
     private View circleBackground;
@@ -345,6 +360,7 @@ public class HomeProfileAdapter extends BaseAdapter {
         imgScaleDownXAnim.setDuration(300);
         imgScaleDownXAnim.setInterpolator(ACCELERATE_INTERPOLATOR);
 
+
         animatorSet.playTogether(bgScaleYAnim, bgScaleXAnim, bgAlphaAnim, imgScaleUpYAnim, imgScaleUpXAnim);
         animatorSet.play(imgScaleDownYAnim).with(imgScaleDownXAnim).after(imgScaleUpYAnim);
 
@@ -361,4 +377,5 @@ public class HomeProfileAdapter extends BaseAdapter {
         circleBackground.setVisibility(View.GONE);
         heartImageView.setVisibility(View.GONE);
     }
+    
 }
