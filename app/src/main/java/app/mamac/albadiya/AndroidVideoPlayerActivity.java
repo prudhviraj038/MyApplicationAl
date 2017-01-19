@@ -2,6 +2,7 @@ package app.mamac.albadiya;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -56,6 +57,7 @@ public class AndroidVideoPlayerActivity extends Activity{
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
+            pDialog.dismiss();
         }
 
         videoview.requestFocus();
@@ -64,6 +66,17 @@ public class AndroidVideoPlayerActivity extends Activity{
             public void onPrepared(MediaPlayer mp) {
                 pDialog.dismiss();
                 videoview.start();
+            }
+        });
+
+        videoview.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                Intent intent = new Intent(AndroidVideoPlayerActivity.this, VideoPlayerActivity.class);
+                intent.putExtra("video", VideoURL);
+                startActivity(intent);
+                finish();
+                return false;
             }
         });
 

@@ -1,6 +1,7 @@
 package app.mamac.albadiya;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.media.MediaFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,5 +65,10 @@ public class VideoPlayerActivity extends Activity{
                 dataSourceFactory, extractorsFactory, null, null);
 // Prepare the player with the source.
         player.prepare(videoSource);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }
