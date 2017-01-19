@@ -76,6 +76,7 @@
         <activity android:name=".ForgotPasswordActivity"></activity>
         <activity android:name=".CompetitorsVoteActivity"></activity>
         <activity android:name=".ResultsDetailPage"></activity>
+        <activity android:name=".VideoPlayerActivity"></activity>
     </application>
 
 </manifest>
