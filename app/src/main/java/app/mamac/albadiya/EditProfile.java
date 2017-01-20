@@ -42,7 +42,7 @@ public class EditProfile extends Fragment {
     TextView edit_btn;
     EditProfileAdapter editProfileAdapter;
     ArrayList<Integer> images;
-    GridView gridView;
+    //GridView gridView;
     //TextView log_out;
     ImageView backbtn;
     TextView no_posts,no_of_followers,no_of_following;
@@ -51,6 +51,7 @@ public class EditProfile extends Fragment {
     ImageView settings;
     ImageView edit_image_btn;
     ImageView posts_list;
+    FrameLayout frame_one;
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.activity_editprofile,container,false);
@@ -151,7 +152,7 @@ public class EditProfile extends Fragment {
             }
         });
 
-        gridView = (GridView) view.findViewById(R.id.gallery_images);
+        //gridView = (GridView) view.findViewById(R.id.gallery_images);
         item_name = (TextView) view.findViewById(R.id.item_name);
         item_name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,37 +181,47 @@ public class EditProfile extends Fragment {
         images.add(R.drawable.banner);
 
         editProfileAdapter = new EditProfileAdapter(getActivity(),postsfrom_api);
-        gridView.setAdapter(editProfileAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              // Toast.makeText(getActivity(),images.get(position),Toast.LENGTH_SHORT).show();
-           }
-        });
+//        gridView.setAdapter(editProfileAdapter);
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//           @Override
+//           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//              // Toast.makeText(getActivity(),images.get(position),Toast.LENGTH_SHORT).show();
+//           }
+//        });
         no_posts = (TextView) view.findViewById(R.id.user_no_posts);
         no_of_followers = (TextView) view.findViewById(R.id.followers);
         no_of_following = (TextView) view.findViewById(R.id.following);
         images_post = (ImageView) view.findViewById(R.id.images_post);
 
-//        FrameLayout grid_framelayout;
-//        grid_framelayout = (FrameLayout) view.findViewById(R.id.grid_framelayout);
-//        posts_list = (ImageView) view.findViewById(R.id.posts_list);
-//        posts_list.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(member_id.equals(Settings.GetUserId(getActivity()))){
-//                    HomeProfile homeProfile = new HomeProfile();
-//                    getFragmentManager().beginTransaction().replace(R.id.grid_framelayout,homeProfile).commit();
-//                }else {
-//
-//                }
-//
-//            }
-//        });
+        posts_list = (ImageView) view.findViewById(R.id.posts_list);
+
+        frame_one = (FrameLayout) view.findViewById(R.id.frame_one);
+
+        GalleryImageItems galleryImageItems = new GalleryImageItems();
+        getFragmentManager().beginTransaction().replace(R.id.frame_one,galleryImageItems).commit();
+
+        images_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GalleryImageItems galleryImageItems = new GalleryImageItems();
+                getFragmentManager().beginTransaction().replace(R.id.frame_one,galleryImageItems).commit();
+            }
+        });
+
+        posts_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!member_id.equals(Settings.GetUserId(getActivity()))){
+                    PostItems postItems = new PostItems();
+                    getFragmentManager().beginTransaction().replace(R.id.frame_one, postItems).commit();
+                }else {
+
+                }
+            }
+        });
+
         get_member_details();
-
-    //    get_posts();
-
+        //    get_posts();
         return view;
 
     }
