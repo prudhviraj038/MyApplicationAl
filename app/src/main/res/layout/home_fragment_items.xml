@@ -30,7 +30,7 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:id="@+id/chat_screen"
+            android:id="@+id/chats"
             android:src="@drawable/ic_chats"
             android:adjustViewBounds="true"
             android:layout_height="25dp" />
