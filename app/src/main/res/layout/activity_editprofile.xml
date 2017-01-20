@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#ffffff">
 
     <LinearLayout
@@ -203,7 +203,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp">
 
         <LinearLayout
@@ -241,14 +241,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/grid_framelayout">
+        android:layout_marginTop="5dp"
+        android:id="@+id/frame_one">
 
-        <GridView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/gallery_images"
-            android:numColumns="2"
-            android:layout_marginTop="10dp" />
     </FrameLayout>
 
 </LinearLayout>
