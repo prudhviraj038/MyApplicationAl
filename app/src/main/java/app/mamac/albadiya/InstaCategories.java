@@ -28,7 +28,7 @@ public class InstaCategories extends Fragment {
         fragment_category = (FrameLayout) view.findViewById(R.id.fragment_category);
 
         reset_icons(1);
-        CategoryFragment categoryFragment = new CategoryFragment();
+        final CategoryFragment categoryFragment = new CategoryFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_category,categoryFragment).commit();
 
         contestants_icon.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +44,8 @@ public class InstaCategories extends Fragment {
             @Override
             public void onClick(View v) {
                 reset_icons(2);
-                LikeFragment likeFragment = new LikeFragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_category,likeFragment).commit();
+                LikesFragment likesFragment = new LikesFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_category,likesFragment).commit();
             }
         });
         return view;
