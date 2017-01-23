@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.R.attr.action;
+import static android.R.attr.fastScrollOverlayPosition;
 import static android.R.attr.name;
 import static android.R.attr.state_empty;
 
@@ -78,8 +79,6 @@ public class EditProfile extends Fragment {
 
                 }
             });
-
-
         }
         else{
             //edit_btn.setTag(1);
@@ -211,12 +210,9 @@ public class EditProfile extends Fragment {
         posts_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!member_id.equals(Settings.GetUserId(getActivity()))){
                     PostItems postItems = new PostItems();
                     getFragmentManager().beginTransaction().replace(R.id.frame_one, postItems).commit();
-                }else {
 
-                }
             }
         });
 
@@ -328,13 +324,5 @@ public class EditProfile extends Fragment {
                     }
                 });
     }
-
-
-
-
-
-
-
-
 
 }

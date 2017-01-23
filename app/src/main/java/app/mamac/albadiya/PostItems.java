@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -77,8 +78,45 @@ public class PostItems extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             }
         });
-        get_posts();
+       //get_posts();
+        get_member_details();
         return view;
+    }
+
+
+
+
+    public void get_member_details(){
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("please wait...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        String url = Settings.SERVER_URL+"member-details.php";
+        Ion.with(getActivity())
+                .load(url)
+                .setBodyParameter("member_id",Settings.GetUserId(getContext()))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+                        if(progressDialog!=null)
+                            progressDialog.dismiss();
+                        try {
+                            JsonObject jsonObject = result.get(0).getAsJsonObject();
+                            JsonArray posts_aray = jsonObject.get("posts").getAsJsonArray();
+                            for (int i = 0; i < posts_aray.size(); i++) {
+                                Posts posts = new Posts(posts_aray.get(i).getAsJsonObject(), getActivity());
+                                postsfrom_api.add(posts);
+                            }
+
+                            postItemsAdapter = new PostItemsAdapter(getActivity(),postsfrom_api,PostItems.this);
+                            listView.setAdapter(postItemsAdapter);
+                            //postItemsAdapter.notifyDataSetChanged();
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+                    }
+                });
     }
 
 
