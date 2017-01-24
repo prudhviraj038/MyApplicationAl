@@ -24,15 +24,15 @@ public class LikesFragment extends Fragment {
         like_fragment = (FrameLayout) view.findViewById(R.id.like_fragment);
 
         reset_icons(1);
-        LikeFragment likeFragment = new LikeFragment();
-        getFragmentManager().beginTransaction().replace(R.id.like_fragment,likeFragment).commit();
+        FollowingFragment followingFragment = new FollowingFragment();
+        getFragmentManager().beginTransaction().replace(R.id.like_fragment,followingFragment).commit();
 
         following.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reset_icons(1);
-                LikeFragment likeFragment = new LikeFragment();
-                getFragmentManager().beginTransaction().replace(R.id.like_fragment,likeFragment).commit();
+                FollowingFragment followingFragment = new FollowingFragment();
+                getFragmentManager().beginTransaction().replace(R.id.like_fragment,followingFragment).commit();
             }
         });
 
