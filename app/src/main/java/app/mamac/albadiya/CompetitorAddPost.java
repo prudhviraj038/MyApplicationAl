@@ -108,9 +108,14 @@ public class CompetitorAddPost extends Activity {
                                 public void onCompleted(Exception e, JsonObject result) {
                                     if(progressDialog!=null)
                                         progressDialog.dismiss();
-                                    Log.e("response",result.toString());
-                                   Toast.makeText(CompetitorAddPost.this,"Post added successfully",Toast.LENGTH_SHORT).show();
-                                    CompetitorAddPost.this.onBackPressed();
+                                    if(result.get("status").getAsString().equals("Success")){
+                                        Log.e("response",result.toString());
+                                        Toast.makeText(CompetitorAddPost.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                        CompetitorAddPost.this.onBackPressed();
+                                    }else {
+                                        Toast.makeText(CompetitorAddPost.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                             });
                 }
