@@ -69,8 +69,8 @@ public class CompetitorsVoteActivity extends Activity {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 if (result.get("status").getAsString().equals("Success")){
+                                    Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                     vote_status();
-
                                 }else{
                                     Toast.makeText(CompetitorsVoteActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                 }
