@@ -4,20 +4,27 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +35,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,16 +43,24 @@ import android.widget.ToggleButton;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import junit.framework.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,14 +68,23 @@ import java.util.HashMap;
 import static android.R.attr.bitmap;
 import static android.R.attr.color;
 import static android.R.attr.description;
+import static android.R.attr.id;
+import static android.R.attr.insetTop;
 import static android.R.attr.lines;
 import static android.R.attr.pointerIcon;
 import static android.R.attr.popupAnimationStyle;
 import static android.R.attr.resource;
+import static android.R.attr.targetActivity;
 import static android.R.attr.theme;
 import static app.mamac.albadiya.R.id.followers;
 import static app.mamac.albadiya.R.id.home;
+import static app.mamac.albadiya.R.id.ifRoom;
+import static app.mamac.albadiya.R.id.image;
 import static app.mamac.albadiya.R.id.imageView;
+import static app.mamac.albadiya.R.id.images_post;
+import static app.mamac.albadiya.R.id.item_image;
+import static app.mamac.albadiya.R.id.posts;
+import static app.mamac.albadiya.R.id.user_image;
 import static app.mamac.albadiya.R.id.user_name;
 
 /**
@@ -76,6 +101,7 @@ public class HomeProfileAdapter extends BaseAdapter {
 
     private GestureDetector gestureDetector;
     private GestureDetector detector;
+
 //    ArrayList<String> mnames;
 //    ArrayList<Integer> mimages;
 
@@ -145,6 +171,79 @@ public class HomeProfileAdapter extends BaseAdapter {
             }
         });
 
+        final TextView time = (TextView) item_view.findViewById(R.id.time);
+        time.setText(posts.get(position).time);
+
+
+        final ImageView download = (ImageView) item_view.findViewById(R.id.download);
+        final ProgressBar progressBar = new ProgressBar(context);
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Picasso.with(context).load(posts.get(position).image).into(target);
+                progressDialog.setMessage("Please wait image is downloading..");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
+                Ion.with(context)
+
+                        .load(posts.get(position).image)
+                        .progressBar(progressBar)
+                        .progressDialog(progressDialog)
+                        .uploadProgressBar(progressBar)
+                        .progress(new ProgressCallback() {@Override
+                        public void onProgress(long downloaded, long total) {
+                            progressDialog.setMax((int) total);
+                            progressDialog.setProgress((int) downloaded);
+                            System.out.println("" + (int) downloaded + " / " +  (int) total);
+                        }
+                        })
+                        .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".jpg"))
+                        .setCallback(new FutureCallback<File>() {
+                            @Override
+                            public void onCompleted(Exception e, File file) {
+                                if (progressDialog!=null)
+                                    progressDialog.dismiss();
+                                Toast.makeText(context,"image saved successfully",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                progressDialog.setMessage("Please wait video is downloading..");
+                progressDialog.setIndeterminate(false);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
+                Ion.with(context)
+                        .load(posts.get(position).video)
+                        .progressBar(progressBar)
+                        .progressDialog(progressDialog)
+                        .uploadProgressBar(progressBar)
+                        .progress(new ProgressCallback() {
+                            @Override
+                            public void onProgress(long downloaded, long total) {
+                                progressDialog.setMax((int) total);
+                                progressDialog.setProgress((int) downloaded);
+                                System.out.println("" + (int) downloaded + " / " + (int) total);
+                            }
+                        })
+                        .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".mp4"))
+                        .setCallback(new FutureCallback<File>() {
+                            @Override
+                            public void onCompleted(Exception e, File result) {
+                                if (progressDialog!=null)
+                                    progressDialog.dismiss();
+                                Toast.makeText(context,"video saved successfully",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+            }
+        });
 
 //        item_image.setImageResource(mprofile_image.get(position));
 
@@ -217,18 +316,6 @@ public class HomeProfileAdapter extends BaseAdapter {
         heartImageView = (ImageView) item_view.findViewById(R.id.heart);
         circleBackground = item_view.findViewById(R.id.circleBg);
 
-
-//        detector = new GestureDetector(context, new GestureListener());
-//        item_image.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                user_like.performClick();
-//                return detector.onTouchEvent(event);
-//
-//            }
-//
-//        });
-
         item_image.setOnTouchListener(new View.OnTouchListener() {
            private GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
                @Override
@@ -248,7 +335,6 @@ public class HomeProfileAdapter extends BaseAdapter {
                return true;
            }
        });
-
 
 //       item_image.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -287,25 +373,6 @@ public class HomeProfileAdapter extends BaseAdapter {
 
         return item_view;
     }
-
-//    GestureListener Inner Class
-//    public class GestureListener extends GestureDetector.SimpleOnGestureListener {
-//
-//        @Override
-//        public boolean onDown(MotionEvent e) {
-//            Log.e("heart","onDown");
-//            return true;
-//        }
-//
-//        @Override
-//        public boolean onDoubleTap(MotionEvent e) {
-//            Log.e("test","DoubleClick");
-//            heart();
-//            return true;
-//        }
-//    }
-
-
     public class GestureListener extends GestureDetector.SimpleOnGestureListener{
 
         @Override
@@ -315,7 +382,7 @@ public class HomeProfileAdapter extends BaseAdapter {
         }
     }
 
-
+    //Like animation
 
     private ImageView heartImageView;
     private View circleBackground;
@@ -377,5 +444,35 @@ public class HomeProfileAdapter extends BaseAdapter {
         circleBackground.setVisibility(View.GONE);
         heartImageView.setVisibility(View.GONE);
     }
-    
+
+    //Like animation ends here
+
+
+    //    private Target target = new Target() {
+//        @Override
+//        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+//
+//            File file = new File(Environment.getExternalStorageDirectory().getPath()  + "/" + item_image  + ".jpg");
+//            Log.e("image_path",file.getAbsolutePath());
+//            try {
+//                file.createNewFile();
+//                FileOutputStream ostream = new FileOutputStream(file);
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,ostream);
+//                ostream.close();
+//                Toast.makeText(context,"image saved successfully",Toast.LENGTH_SHORT).show();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        @Override
+//        public void onBitmapFailed(Drawable errorDrawable) {}
+//
+//        @Override
+//        public void onPrepareLoad(Drawable placeHolderDrawable) {}
+//
+//    };
+
 }
+
+

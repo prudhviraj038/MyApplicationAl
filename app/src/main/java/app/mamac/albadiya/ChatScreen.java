@@ -162,10 +162,10 @@ public class ChatScreen extends Activity {
     ArrayList<Posts> postsfrom_api;
 
     public void get_member_details(){
-        final ProgressDialog progressDialog = new ProgressDialog(ChatScreen.this);
-        progressDialog.setMessage("please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+//        final ProgressDialog progressDialog = new ProgressDialog(ChatScreen.this);
+//        progressDialog.setMessage("please wait...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
         String url = Settings.SERVER_URL+"member-details.php";
         Ion.with(ChatScreen.this)
                 .load(url)
@@ -174,8 +174,8 @@ public class ChatScreen extends Activity {
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
-                        if(progressDialog!=null)
-                            progressDialog.dismiss();
+//                        if(progressDialog!=null)
+//                            progressDialog.dismiss();
                         try {
                             JsonObject jsonObject = result.get(0).getAsJsonObject();
                             name.setText(jsonObject.get("name").getAsString());

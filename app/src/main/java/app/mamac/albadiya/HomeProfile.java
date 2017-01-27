@@ -39,7 +39,7 @@ public class HomeProfile extends Fragment {
     ArrayList<String> title;
     ArrayList<Integer> image;
     ArrayList<Posts> postsfrom_api;
-    ImageView chat_screen;
+    ImageView chats;
     ImageView settings;
     UserProfileSelectedListner mCallback;
     public interface UserProfileSelectedListner {
@@ -66,14 +66,17 @@ public class HomeProfile extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.home_fragment_items,container,false);
         listView = (ListView) view.findViewById(R.id.home_items);
-        chat_screen = (ImageView) view.findViewById(R.id.chat_screen);
-        chat_screen.setOnClickListener(new View.OnClickListener() {
+
+        chats = (ImageView) view.findViewById(R.id.chats);
+        chats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent chats = new Intent(getActivity(),ChatScreen.class);
-                startActivity(chats);
+                Log.e("message","message added");
+                Intent intent = new Intent(getActivity(),ChatScreen.class);
+                startActivity(intent);
             }
         });
+
 
         settings = (ImageView) view.findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +86,8 @@ public class HomeProfile extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.fragment,settingsFragment).commit();
             }
         });
+
+
 
         title   = new ArrayList<>();
         image = new ArrayList<>();
@@ -123,13 +128,12 @@ public class HomeProfile extends Fragment {
 //                bundle.putSerializable("post",postsfrom_api.get(position));
 //                postDetailPageFragment.setArguments(bundle);
 //                getFragmentManager().beginTransaction().replace(R.id.fragment,postDetailPageFragment).commit();
-                /// Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
             }
         });
         get_posts();
         return view;
     }
-
 
 
 

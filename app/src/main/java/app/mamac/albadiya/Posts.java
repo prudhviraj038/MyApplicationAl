@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public class Posts implements Serializable{
 
-    public String id,title,title_ar,image,video,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name;
+    public String id,title,title_ar,image,video,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name,time;
 
     public Posts(JsonObject jsonObject,Context context){
         id = jsonObject.get("id").getAsString();
@@ -47,8 +47,11 @@ public class Posts implements Serializable{
             user_name = jsonObject.get("posted").getAsJsonObject().get("name").getAsString();
 
 
+
         }catch (Exception ex){
             ex.printStackTrace();
         }
+
+        time = jsonObject.get("time").getAsString();
     }
 }
