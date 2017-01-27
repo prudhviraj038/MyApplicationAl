@@ -30,19 +30,11 @@
             android:paddingRight="10dp"
             android:paddingLeft="10dp" />
 
-        <ImageView
-            android:layout_height="30dp"
-            android:id="@+id/image"
+        <TextView
+            android:text="TextView"
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_star"
-            android:adjustViewBounds="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/imageView45"
-            android:src="@drawable/ic_load"
-            android:layout_height="25dp"
-            android:adjustViewBounds="true" />
+            android:layout_height="wrap_content"
+            android:id="@+id/time" />
 
     </LinearLayout>
 
@@ -120,13 +112,12 @@
             android:layout_marginRight="2dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView48"
-            android:src="@drawable/ic_search"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/download"
             android:adjustViewBounds="true"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp" />
+            android:src="@drawable/download"
+            android:tint="#e6d82e" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -136,6 +127,7 @@
             android:adjustViewBounds="true"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
+
     </LinearLayout>
 
     <LinearLayout
