@@ -181,65 +181,69 @@ public class HomeProfileAdapter extends BaseAdapter {
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Picasso.with(context).load(posts.get(position).image).into(target);
-                progressDialog.setMessage("Please wait image is downloading..");
-                progressDialog.setIndeterminate(false);
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                if(posts.get(position).video.equals("")) {
+                    //Picasso.with(context).load(posts.get(position).image).into(target);
+                    progressDialog.setMessage("Please wait image is downloading..");
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
-                Ion.with(context)
+                    Ion.with(context)
 
-                        .load(posts.get(position).image)
-                        .progressBar(progressBar)
-                        .progressDialog(progressDialog)
-                        .uploadProgressBar(progressBar)
-                        .progress(new ProgressCallback() {@Override
-                        public void onProgress(long downloaded, long total) {
-                            progressDialog.setMax((int) total);
-                            progressDialog.setProgress((int) downloaded);
-                            System.out.println("" + (int) downloaded + " / " +  (int) total);
-                        }
-                        })
-                        .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".jpg"))
-                        .setCallback(new FutureCallback<File>() {
-                            @Override
-                            public void onCompleted(Exception e, File file) {
-                                if (progressDialog!=null)
-                                    progressDialog.dismiss();
-                                Toast.makeText(context,"image saved successfully",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            .load(posts.get(position).image)
+                            .progressBar(progressBar)
+                            .progressDialog(progressDialog)
+                            // .uploadProgressBar(progressBar)
+                            .progress(new ProgressCallback() {
+                                @Override
+                                public void onProgress(long downloaded, long total) {
+                                    progressDialog.setMax((int) total);
+                                    progressDialog.setProgress((int) downloaded);
+                                    System.out.println("" + (int) downloaded + " / " + (int) total);
+                                }
+                            })
+                            .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".jpg"))
+                            .setCallback(new FutureCallback<File>() {
+                                @Override
+                                public void onCompleted(Exception e, File file) {
+                                    if (progressDialog != null)
+                                        progressDialog.dismiss();
+                                    Toast.makeText(context, "image saved successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }else {
 
 
-                progressDialog.setMessage("Please wait video is downloading..");
-                progressDialog.setIndeterminate(false);
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+                    progressDialog.setMessage("Please wait video is downloading..");
+                    progressDialog.setIndeterminate(false);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
 
-                Ion.with(context)
-                        .load(posts.get(position).video)
-                        .progressBar(progressBar)
-                        .progressDialog(progressDialog)
-                        .uploadProgressBar(progressBar)
-                        .progress(new ProgressCallback() {
-                            @Override
-                            public void onProgress(long downloaded, long total) {
-                                progressDialog.setMax((int) total);
-                                progressDialog.setProgress((int) downloaded);
-                                System.out.println("" + (int) downloaded + " / " + (int) total);
-                            }
-                        })
-                        .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".mp4"))
-                        .setCallback(new FutureCallback<File>() {
-                            @Override
-                            public void onCompleted(Exception e, File result) {
-                                if (progressDialog!=null)
-                                    progressDialog.dismiss();
-                                Toast.makeText(context,"video saved successfully",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    Ion.with(context)
+                            .load(posts.get(position).video)
+                            .progressBar(progressBar)
+                            .progressDialog(progressDialog)
+                            // .uploadProgressBar(progressBar)
+                            .progress(new ProgressCallback() {
+                                @Override
+                                public void onProgress(long downloaded, long total) {
+                                    progressDialog.setMax((int) total);
+                                    progressDialog.setProgress((int) downloaded);
+                                    System.out.println("" + (int) downloaded + " / " + (int) total);
+                                }
+                            })
+                            .write(new File("/sdcard/Albadiya" + posts.get(position).id + ".mp4"))
+                            .setCallback(new FutureCallback<File>() {
+                                @Override
+                                public void onCompleted(Exception e, File result) {
+                                    if (progressDialog != null)
+                                        progressDialog.dismiss();
+                                    Toast.makeText(context, "video saved successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
 
 
             }
