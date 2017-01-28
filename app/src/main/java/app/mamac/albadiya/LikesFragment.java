@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class LikesFragment extends Fragment {
     TextView following,you;
     FrameLayout like_fragment;
+    Members members;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.like_items,container,false);
@@ -24,7 +25,10 @@ public class LikesFragment extends Fragment {
         like_fragment = (FrameLayout) view.findViewById(R.id.like_fragment);
 
         reset_icons(1);
-        FollowingFragment followingFragment = new FollowingFragment();
+        final FollowingFragment followingFragment = new FollowingFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type","1");
+        followingFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.like_fragment,followingFragment).commit();
 
         following.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +36,9 @@ public class LikesFragment extends Fragment {
             public void onClick(View v) {
                 reset_icons(1);
                 FollowingFragment followingFragment = new FollowingFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type","1");
+                followingFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.like_fragment,followingFragment).commit();
             }
         });
@@ -40,8 +47,11 @@ public class LikesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 reset_icons(2);
-                LikeFragment likeFragment = new LikeFragment();
-                getFragmentManager().beginTransaction().replace(R.id.like_fragment,likeFragment).commit();
+                FollowingFragment followingFragment = new FollowingFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("type","2");
+                followingFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.like_fragment,followingFragment).commit();
             }
         });
 

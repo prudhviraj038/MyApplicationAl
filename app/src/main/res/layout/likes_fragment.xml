@@ -5,10 +5,8 @@
     android:layout_height="wrap_content"
     android:background="#ffffff">
 
-    <GridView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gallery_images"
-        android:numColumns="2" />
-
+        android:id="@+id/like_list" />
 </LinearLayout>
