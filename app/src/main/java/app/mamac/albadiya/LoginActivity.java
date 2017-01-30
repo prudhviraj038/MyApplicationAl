@@ -35,10 +35,6 @@ public class LoginActivity extends Activity {
            public void onClick(View v) {
                String email_string = email.getText().toString();
                String password_string = password.getText().toString();
-               final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-               progressDialog.setMessage("please wait...");
-               progressDialog.setCancelable(false);
-               progressDialog.show();
                if (email_string.equals("")){
                    Toast.makeText(LoginActivity.this,"please enter email",Toast.LENGTH_SHORT).show();
                    email.requestFocus();
@@ -46,6 +42,10 @@ public class LoginActivity extends Activity {
                    Toast.makeText(LoginActivity.this,"please enter password",Toast.LENGTH_SHORT).show();
                    password.requestFocus();
                }else{
+                   final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+                   progressDialog.setMessage("please wait..");
+                   progressDialog.setCancelable(false);
+                   progressDialog.show();
                    Ion.with(LoginActivity.this)
                            .load(Settings.SERVER_URL+"login.php")
                            .setBodyParameter("email",email_string)
