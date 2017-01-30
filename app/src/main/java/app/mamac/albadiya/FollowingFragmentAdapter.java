@@ -70,7 +70,8 @@ public class FollowingFragmentAdapter  extends BaseAdapter{
         }
         //TextView follow = (TextView) item_view.findViewById(R.id.follow);
         if (notifications.get(position).type.equals("Follow")){
-            Picasso.with(context).load(notifications.get(position).member_image).into(ic_member_image);
+           // Picasso.with(context).load(notifications.get(position).member_image).into(ic_member_image);
+            ic_member_image.setVisibility(View.GONE);
 //            follow.setVisibility(View.VISIBLE);
 //            follow.setText(notifications.get(position).type);
         }else if (notifications.get(position).type.equals("Like")){

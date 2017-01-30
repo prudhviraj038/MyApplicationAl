@@ -44,9 +44,6 @@ public class FollowingFragment extends Fragment {
     ArrayList<Notifications> notificationsfrom_api;
     String type;
 
-
-
-
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.following_listview,container,false);
