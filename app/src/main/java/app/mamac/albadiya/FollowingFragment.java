@@ -43,7 +43,7 @@ public class FollowingFragment extends Fragment {
     ListView listView;
     ArrayList<Notifications> notificationsfrom_api;
     String type;
-    Members members;
+
 
 
 
