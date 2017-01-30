@@ -1,5 +1,6 @@
 package app.mamac.albadiya;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,10 @@ public class RegisterActivity extends Activity {
                     Toast.makeText(RegisterActivity.this, "please enter email.", Toast.LENGTH_SHORT).show();
                     email.requestFocus();
                 } else {
+                    final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
+                    progressDialog.setMessage("please wait..");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     Ion.with(RegisterActivity.this)
                             .load(Settings.SERVER_URL+"add-member.php")
                             .setBodyParameter("name",name_string)
@@ -54,6 +59,8 @@ public class RegisterActivity extends Activity {
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
+                                    if (progressDialog!=null)
+                                        progressDialog.dismiss();
                                     if (result.get("status").getAsString().equals("Success")){
                                         Toast.makeText(RegisterActivity.this,result.get("message").getAsString(),Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
