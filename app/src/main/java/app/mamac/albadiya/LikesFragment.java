@@ -16,7 +16,6 @@ import android.widget.TextView;
 public class LikesFragment extends Fragment {
     TextView following,you;
     FrameLayout like_fragment;
-    Members members;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.like_items,container,false);
