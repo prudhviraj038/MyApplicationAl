@@ -46,7 +46,7 @@ public class ChatScreenAdapter extends BaseAdapter {
 
     public class Holder
     {
-        TextView chating_right,chating_left;
+        TextView chating_right,chating_left,chat_date_time;
         LinearLayout chat_right,chat_left,chat_ll_left;
         ImageView item_image;
         RelativeLayout chat_ll_right;
@@ -64,6 +64,8 @@ public class ChatScreenAdapter extends BaseAdapter {
         holder.chating_right=(TextView) item_view.findViewById(R.id.chating_right);
         holder.chating_left=(TextView) item_view.findViewById(R.id.chating_left);
         holder.item_image = (ImageView) item_view.findViewById(R.id.item_image);
+        holder.chat_date_time = (TextView) item_view.findViewById(R.id.chat_date_time);
+
 //        TextView description = (TextView) item_view.findViewById(R.id.description);
 //        description.setText(chats.get(position).description);
 
@@ -73,6 +75,7 @@ public class ChatScreenAdapter extends BaseAdapter {
             holder.chat_right.setVisibility(View.VISIBLE);
             holder.item_image.setVisibility(View.GONE);
             holder.chating_right.setText(chats.get(position).description);
+            holder.chat_date_time.setText(chats.get(position).date);
             Picasso.with(context).load(chats.get(position).file).into(holder.item_image);
             holder.chat_ll_right.setBackgroundResource(R.drawable.linearlayout_bg);
         } else {
@@ -80,6 +83,7 @@ public class ChatScreenAdapter extends BaseAdapter {
             holder.chat_right.setVisibility(View.GONE);
             holder.item_image.setVisibility(View.GONE);
             holder.chating_left.setText(chats.get(position).description);
+            holder.chat_date_time.setText(chats.get(position).date);
             Picasso.with(context).load(chats.get(position).file).into(holder.item_image);
             holder.chat_ll_left.setBackgroundResource(R.drawable.linearlayout_bg);
         }

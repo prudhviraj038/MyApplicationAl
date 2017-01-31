@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 public class Chats  {
-    public String id,msg_type,file,description,member_id,member_name,member_image,receiver;
+    public String id,msg_type,file,description,member_id,member_name,member_image,receiver,date;
 
     public Chats(JsonObject jsonObject,Context context) {
         id = jsonObject.get("id").getAsString();
@@ -25,6 +25,8 @@ public class Chats  {
         file = jsonObject.get("file").getAsString();
         description = jsonObject.get("description").getAsString();
         receiver = "0";
+        date = jsonObject.get("date").getAsString();
+
 
     }
 
