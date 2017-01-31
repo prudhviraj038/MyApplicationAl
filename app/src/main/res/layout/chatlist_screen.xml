@@ -119,10 +119,11 @@
                     android:layout_height="match_parent"></LinearLayout>
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:id="@+id/send_btn"
-                    android:src="@drawable/send_icon" />
+                    android:src="@drawable/chat_send_image"
+                    android:tint="#e6d82e" />
             </LinearLayout>
         </LinearLayout>
             </RelativeLayout>
