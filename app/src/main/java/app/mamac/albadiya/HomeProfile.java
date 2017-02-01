@@ -39,8 +39,8 @@ public class HomeProfile extends Fragment {
     ArrayList<String> title;
     ArrayList<Integer> image;
     ArrayList<Posts> postsfrom_api;
-    ImageView chats;
     ImageView settings;
+    ImageView chat_item;
     UserProfileSelectedListner mCallback;
     public interface UserProfileSelectedListner {
 
@@ -67,17 +67,6 @@ public class HomeProfile extends Fragment {
         final View view = inflater.inflate(R.layout.home_fragment_items,container,false);
         listView = (ListView) view.findViewById(R.id.home_items);
 
-        chats = (ImageView) view.findViewById(R.id.chats);
-        chats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("message","message added");
-                Intent intent = new Intent(getActivity(),ChatScreen.class);
-                startActivity(intent);
-            }
-        });
-
-
         settings = (ImageView) view.findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +76,14 @@ public class HomeProfile extends Fragment {
             }
         });
 
-
+        chat_item = (ImageView) view.findViewById(R.id.chat_item);
+        chat_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chats = new Intent(getActivity(),ChatScreen.class);
+                startActivity(chats);
+            }
+        });
 
         title   = new ArrayList<>();
         image = new ArrayList<>();
