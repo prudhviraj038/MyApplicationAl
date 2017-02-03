@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,14 +27,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static app.mamac.albadiya.R.id.item_image;
+import static app.mamac.albadiya.R.id.last;
+import static app.mamac.albadiya.R.id.lastname;
 import static app.mamac.albadiya.R.id.no_of_views;
 import static app.mamac.albadiya.R.id.posts;
+import static app.mamac.albadiya.R.id.scroll;
 
 /**
  * Created by T on 07-12-2016.
  */
 
-public class HomeProfile extends Fragment {
+public class HomeProfile extends Fragment implements AbsListView.OnScrollListener {
     ListView listView;
     HomeProfileAdapter homeProfileAdapter;
     ArrayList<String> title;
@@ -41,7 +45,31 @@ public class HomeProfile extends Fragment {
     ArrayList<Posts> postsfrom_api;
     ImageView settings;
     ImageView chat_item;
+    int pageno=1;
+    private  int previouslast;
     UserProfileSelectedListner mCallback;
+
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastitem = firstVisibleItem + visibleItemCount;
+        if (lastitem == totalItemCount){
+            if (previouslast!=lastitem){
+                Log.e("result","last");
+                pageno++;
+                get_posts();
+                previouslast = lastitem;
+            }
+        }
+
+    }
+
+
     public interface UserProfileSelectedListner {
 
         public void onUserSelected(String member_id);
@@ -66,6 +94,8 @@ public class HomeProfile extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.home_fragment_items,container,false);
         listView = (ListView) view.findViewById(R.id.home_items);
+        listView.setOnScrollListener(this);
+
 
         settings = (ImageView) view.findViewById(R.id.settings);
         settings.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +132,7 @@ public class HomeProfile extends Fragment {
         image.add(R.drawable.timeline);
 
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -132,7 +163,6 @@ public class HomeProfile extends Fragment {
     }
 
 
-
     private void get_posts() {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("plase wait...");
@@ -141,10 +171,12 @@ public class HomeProfile extends Fragment {
         Ion.with(this)
                 .load(Settings.SERVER_URL+"posts.php")
                 .setBodyParameter("member_id",Settings.GetUserId(getActivity()))
+                .setBodyParameter("page",String.valueOf(pageno))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+
                         // do stuff with the result or error
                         //{"status":"Failure","message":"Please Enter Your Type"}
                         if (progressDialog != null)
@@ -153,13 +185,14 @@ public class HomeProfile extends Fragment {
                             e.printStackTrace();
                         } else {
                             Log.e("response", String.valueOf(result.size()));
+
                             for (int i = 0; i < result.size(); i++) {
                                 Posts posts = new Posts(result.get(i).getAsJsonObject(), getActivity());
                                 postsfrom_api.add(posts);
                             }
+
                             homeProfileAdapter = new HomeProfileAdapter(getActivity(),postsfrom_api,HomeProfile.this);
                             listView.setAdapter(homeProfileAdapter);
-
 
                            // homeProfileAdapter.notifyDataSetChanged();
 
