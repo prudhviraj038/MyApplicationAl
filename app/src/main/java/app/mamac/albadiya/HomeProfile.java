@@ -165,7 +165,7 @@ public class HomeProfile extends Fragment implements AbsListView.OnScrollListene
 
     private void get_posts() {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("plase wait...");
+        progressDialog.setMessage("loading..");
         progressDialog.setCancelable(false);
         progressDialog.show();
         Ion.with(this)
