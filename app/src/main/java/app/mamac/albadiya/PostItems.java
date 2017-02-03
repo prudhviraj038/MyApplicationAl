@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,13 +25,35 @@ import java.util.ArrayList;
  * Created by T on 20-01-2017.
  */
 
-public class PostItems extends Fragment {
+public class PostItems extends Fragment implements AbsListView.OnScrollListener{
     ListView listView;
     PostItemsAdapter postItemsAdapter;
     ArrayList<String> title;
     ArrayList<Integer> image;
     ArrayList<Posts> postsfrom_api;
     HomeProfile.UserProfileSelectedListner mCallback;
+    private  int previouslast;
+    private int pageno=1;
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        int lastitem = firstVisibleItem + visibleItemCount;
+        if (lastitem == totalItemCount){
+            if (previouslast!=lastitem){
+                Log.e("result","last");
+                pageno++;
+                get_posts();
+                previouslast = lastitem;
+            }
+        }
+
+    }
+
     public interface UserProfileSelectedListner {
 
         public void onUserSelected(String member_id);
@@ -54,6 +77,7 @@ public class PostItems extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.post_list,container,false);
         listView = (ListView) view.findViewById(R.id.posts_list);
+        listView.setOnScrollListener(this);
 
 
         title   = new ArrayList<>();
@@ -78,48 +102,9 @@ public class PostItems extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             }
         });
-       //get_posts();
-        get_member_details();
+        get_posts();
         return view;
     }
-
-
-
-
-    public void get_member_details(){
-        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("please wait...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        String url = Settings.SERVER_URL+"member-details.php";
-        Ion.with(getActivity())
-                .load(url)
-                .setBodyParameter("member_id",Settings.GetUserId(getContext()))
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if(progressDialog!=null)
-                            progressDialog.dismiss();
-                        try {
-                            JsonObject jsonObject = result.get(0).getAsJsonObject();
-                            JsonArray posts_aray = jsonObject.get("posts").getAsJsonArray();
-                            for (int i = 0; i < posts_aray.size(); i++) {
-                                Posts posts = new Posts(posts_aray.get(i).getAsJsonObject(), getActivity());
-                                postsfrom_api.add(posts);
-                            }
-
-                            postItemsAdapter = new PostItemsAdapter(getActivity(),postsfrom_api,PostItems.this);
-                            listView.setAdapter(postItemsAdapter);
-                            //postItemsAdapter.notifyDataSetChanged();
-                        }catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-    }
-
-
 
     private void get_posts() {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
@@ -129,10 +114,12 @@ public class PostItems extends Fragment {
         Ion.with(this)
                 .load(Settings.SERVER_URL+"posts.php")
                 .setBodyParameter("member_id",Settings.GetUserId(getActivity()))
+                .setBodyParameter("page",String.valueOf(pageno))
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {
                     @Override
                     public void onCompleted(Exception e, JsonArray result) {
+
                         // do stuff with the result or error
                         //{"status":"Failure","message":"Please Enter Your Type"}
                         if (progressDialog != null)
@@ -141,13 +128,14 @@ public class PostItems extends Fragment {
                             e.printStackTrace();
                         } else {
                             Log.e("response", String.valueOf(result.size()));
+
                             for (int i = 0; i < result.size(); i++) {
                                 Posts posts = new Posts(result.get(i).getAsJsonObject(), getActivity());
                                 postsfrom_api.add(posts);
                             }
+
                             postItemsAdapter = new PostItemsAdapter(getActivity(),postsfrom_api,PostItems.this);
                             listView.setAdapter(postItemsAdapter);
-
 
                             // homeProfileAdapter.notifyDataSetChanged();
 
