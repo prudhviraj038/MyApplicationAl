@@ -77,12 +77,7 @@
         <activity android:name=".CompetitorsVoteActivity"></activity>
         <activity android:name=".ResultsDetailPage"></activity>
         <activity android:name=".VideoPlayerActivity"  android:configChanges="orientation"></activity>
-        <activity android:name=".LoginActivityDuplicate">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+
     </application>
 
 </manifest>
