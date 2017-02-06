@@ -1,8 +1,11 @@
 package app.mamac.albadiya;
 
 import android.content.Context;
+import android.view.View;
+
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
+import com.volokh.danylo.visibility_utils.items.ListItem;
 
 import java.io.Serializable;
 
@@ -11,7 +14,7 @@ import java.io.Serializable;
  * Created by T on 26-11-2016.
  */
 
-public class Posts implements Serializable{
+public class Posts implements Serializable,ListItem {
 
     public String id,title,title_ar,image,video,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name,time;
 
@@ -53,5 +56,21 @@ public class Posts implements Serializable{
         }
 
         time = jsonObject.get("time").getAsString();
+    }
+
+    @Override
+    public int getVisibilityPercents(View view) {
+
+        return 0;
+    }
+
+    @Override
+    public void setActive(View newActiveView, int newActiveViewPosition) {
+
+    }
+
+    @Override
+    public void deactivate(View currentView, int position) {
+
     }
 }

@@ -287,6 +287,7 @@ public class AddPost extends Activity {
                         }else {
                             Log.e("video_path_response",result.toString());
                             addpost_success();
+
                         }
                     }
                 });

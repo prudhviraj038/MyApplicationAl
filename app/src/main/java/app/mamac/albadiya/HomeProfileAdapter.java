@@ -395,6 +395,7 @@ public class HomeProfileAdapter extends BaseAdapter {
     private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
 
     private void heart() {
+
         circleBackground.setVisibility(View.VISIBLE);
         heartImageView.setVisibility(View.VISIBLE);
 
@@ -441,6 +442,7 @@ public class HomeProfileAdapter extends BaseAdapter {
                 reset();
             }
         });
+
         animatorSet.start();
     }
 

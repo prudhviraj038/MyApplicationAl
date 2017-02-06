@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-
+import app.mamac.albadiya.video_list_demo.fragments.VideoRecyclerViewFragment;
 
 
 /**
@@ -31,6 +31,7 @@ public class InstaFragment extends FragmentActivity implements HomeProfile.UserP
 
 
         HomeProfile homeProfile = new HomeProfile();
+        VideoRecyclerViewFragment videoRecyclerViewFragment = new VideoRecyclerViewFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment,homeProfile).commit();
         reset_icons(1);
 
@@ -38,6 +39,8 @@ public class InstaFragment extends FragmentActivity implements HomeProfile.UserP
             @Override
             public void onClick(View v) {
                 HomeProfile homeProfile = new HomeProfile();
+
+             //   VideoRecyclerViewFragment videoRecyclerViewFragment = new VideoRecyclerViewFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment,homeProfile).commit();
                 reset_icons(1);
             }
