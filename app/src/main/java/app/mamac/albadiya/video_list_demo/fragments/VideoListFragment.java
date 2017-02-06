@@ -1,13 +1,21 @@
 package app.mamac.albadiya.video_list_demo.fragments;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.gson.JsonArray;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.volokh.danylo.video_player_manager.Config;
 import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
 import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
@@ -15,7 +23,13 @@ import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
 import com.volokh.danylo.video_player_manager.meta.MetaData;
 import com.volokh.danylo.video_player_manager.utils.Logger;
 
+import app.mamac.albadiya.ChatScreen;
+import app.mamac.albadiya.HomeProfile;
+import app.mamac.albadiya.HomeProfileAdapter;
+import app.mamac.albadiya.Posts;
 import app.mamac.albadiya.R;
+import app.mamac.albadiya.Settings;
+import app.mamac.albadiya.SettingsFragment;
 import app.mamac.albadiya.video_list_demo.adapter.VideoListViewAdapter;
 import app.mamac.albadiya.video_list_demo.adapter.items.BaseVideoItem;
 import app.mamac.albadiya.video_list_demo.adapter.items.ItemFactory;
@@ -64,10 +78,37 @@ public class VideoListFragment extends Fragment {
 
     private ListView mListView;
 
+    ArrayList<Posts> postsfrom_api;
+    ImageView settings;
+    ImageView chat_item;
+    int pageno=2;
+    private  int previouslast;
+    UserProfileSelectedListner mCallback;
+    VideoListViewAdapter videoListViewAdapter;
+
+    public interface UserProfileSelectedListner {
+
+        public void onUserSelected(String member_id);
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (UserProfileSelectedListner) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        postsfrom_api = new ArrayList<>();
         // if your files are in "assets" directory you can pass AssetFileDescriptor to the VideoPlayerView
         // if they are url's or path values you can pass the String path to the VideoPlayerView
 //        try {
@@ -92,7 +133,8 @@ public class VideoListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_video_list_view, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.list_view);
-        VideoListViewAdapter videoListViewAdapter = new VideoListViewAdapter(mVideoPlayerManager, getActivity(), mList);
+
+        videoListViewAdapter = new VideoListViewAdapter(mVideoPlayerManager, getActivity(), postsfrom_api);
         mListView.setAdapter(videoListViewAdapter);
 
         mItemsPositionGetter = new ListViewItemPositionGetter(mListView);
@@ -120,6 +162,27 @@ public class VideoListFragment extends Fragment {
             }
         });
 
+        settings = (ImageView) rootView.findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragment,settingsFragment).commit();
+            }
+        });
+
+        chat_item = (ImageView) rootView.findViewById(R.id.chat_item);
+        chat_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent chats = new Intent(getActivity(),ChatScreen.class);
+                startActivity(chats);
+            }
+        });
+
+
+
+        get_posts();
         return rootView;
     }
 
@@ -149,4 +212,39 @@ public class VideoListFragment extends Fragment {
         // we have to stop any playback in onStop
         mVideoPlayerManager.resetMediaPlayer();
     }
+
+    private void get_posts() {
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("loading..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        Ion.with(this)
+                .load(Settings.SERVER_URL+"posts.php")
+                .setBodyParameter("member_id",Settings.GetUserId(getActivity()))
+                .setBodyParameter("page",String.valueOf(pageno))
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray result) {
+
+                        // do stuff with the result or error
+                        //{"status":"Failure","message":"Please Enter Your Type"}
+                        if (progressDialog != null)
+                            progressDialog.dismiss();
+                        if (e != null) {
+                            e.printStackTrace();
+                        } else {
+                            Log.e("response", String.valueOf(result.size()));
+
+                            for (int i = 0; i < result.size(); i++) {
+                                Posts posts = new Posts(result.get(i).getAsJsonObject(), getActivity(),getActivity(),mVideoPlayerManager);
+                                postsfrom_api.add(posts);
+                            }
+                            videoListViewAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                });
+    }
+
 }

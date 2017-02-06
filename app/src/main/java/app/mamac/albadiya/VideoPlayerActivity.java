@@ -2,7 +2,6 @@ package app.mamac.albadiya;
 
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.media.MediaFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +25,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+
 /**
  * Created by mac on 10/24/16.
  */
@@ -45,7 +45,7 @@ public class VideoPlayerActivity extends Activity{
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
         TrackSelector trackSelector =
-                new DefaultTrackSelector(mainHandler, videoTrackSelectionFactory);
+                new DefaultTrackSelector(videoTrackSelectionFactory);
 
 // 2. Create a default LoadControl
         LoadControl loadControl = new DefaultLoadControl();
@@ -71,4 +71,8 @@ public class VideoPlayerActivity extends Activity{
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
+
+
+
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import app.mamac.albadiya.video_list_demo.fragments.VideoListFragment;
 import app.mamac.albadiya.video_list_demo.fragments.VideoRecyclerViewFragment;
 
 
@@ -14,7 +15,7 @@ import app.mamac.albadiya.video_list_demo.fragments.VideoRecyclerViewFragment;
  * Created by T on 03-12-2016.
  */
 
-public class InstaFragment extends FragmentActivity implements HomeProfile.UserProfileSelectedListner{
+public class InstaFragment extends FragmentActivity implements HomeProfile.UserProfileSelectedListner,VideoListFragment.UserProfileSelectedListner{
     FrameLayout fragment;
     ImageView first_item,second_item,third_item,fourth_item,fifth_item;
     @Override
@@ -30,9 +31,11 @@ public class InstaFragment extends FragmentActivity implements HomeProfile.UserP
 
 
 
-        HomeProfile homeProfile = new HomeProfile();
-        VideoRecyclerViewFragment videoRecyclerViewFragment = new VideoRecyclerViewFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment,homeProfile).commit();
+        //HomeProfile homeProfile = new HomeProfile();
+       // VideoRecyclerViewFragment videoRecyclerViewFragment = new VideoRecyclerViewFragment();
+
+        VideoListFragment videoListFragment = new VideoListFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment,videoListFragment).commit();
         reset_icons(1);
 
         first_item.setOnClickListener(new View.OnClickListener() {

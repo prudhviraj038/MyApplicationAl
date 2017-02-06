@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+
+import app.mamac.albadiya.Posts;
 import app.mamac.albadiya.video_list_demo.adapter.holders.VideoViewHolder;
 import app.mamac.albadiya.video_list_demo.adapter.items.BaseVideoItem;
 
@@ -14,10 +16,10 @@ import java.util.List;
 public class VideoListViewAdapter extends BaseAdapter {
 
     private final VideoPlayerManager mVideoPlayerManager;
-    private final List<BaseVideoItem> mList;
+    private final List<Posts> mList;
     private final Context mContext;
 
-    public VideoListViewAdapter(VideoPlayerManager videoPlayerManager, Context context, List<BaseVideoItem> list){
+    public VideoListViewAdapter(VideoPlayerManager videoPlayerManager, Context context, List<Posts> list){
         mVideoPlayerManager = videoPlayerManager;
         mContext = context;
         mList = list;
@@ -41,7 +43,7 @@ public class VideoListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        BaseVideoItem videoItem = mList.get(position);
+        BaseVideoItem videoItem = mList.get(position).videoItem;
 
         View resultView;
         if(convertView == null){
@@ -52,6 +54,7 @@ public class VideoListViewAdapter extends BaseAdapter {
         }
 
         videoItem.update(position, (VideoViewHolder) resultView.getTag(), mVideoPlayerManager);
+
         return resultView;
     }
 

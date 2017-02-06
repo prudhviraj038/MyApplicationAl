@@ -36,7 +36,11 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
-    compile 'com.google.android.exoplayer:exoplayer:r2.0.4'
-    compile "com.squareup.picasso:picasso:2.4.0"
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.14'
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 
+    compile "com.squareup.picasso:picasso:2.4.0"
+    compile 'com.danikula:videocache:2.6.4'
+    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
+    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
 }

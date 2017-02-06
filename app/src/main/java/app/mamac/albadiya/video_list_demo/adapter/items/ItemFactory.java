@@ -13,6 +13,9 @@ public class ItemFactory {
     public static BaseVideoItem createItemFromAsset(String assetName, String imageResource, Activity activity, VideoPlayerManager<MetaData> videoPlayerManager) throws IOException {
         return new DirectLinkVideoItem(assetName, assetName, videoPlayerManager, Picasso.with(activity), imageResource, activity);
     }
+    public static BaseVideoItem createItemFromAsset(String assetName, int imageResource, Activity activity, VideoPlayerManager<MetaData> videoPlayerManager) throws IOException {
+        return new DirectLinkVideoItem(assetName, assetName, videoPlayerManager, Picasso.with(activity), "no_image", activity);
+    }
 
 
 }

@@ -88,7 +88,7 @@ public class VideoRecyclerViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_video_recycler_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
-        get_posts();
+        //get_posts();
 
         update_view();
 
@@ -172,25 +172,25 @@ public class VideoRecyclerViewFragment extends Fragment {
 
 
     private void update_view(){
-//        try {
-//            // App.getProxy(getActivity()).getProxyUrl("http://mamacgroup.com/albadiya/uploads/posts/14829206571.mp4")
-////            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-////            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-////            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-////            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            // App.getProxy(getActivity()).getProxyUrl("http://mamacgroup.com/albadiya/uploads/posts/14829206571.mp4")
+            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("https://video.twimg.com/ext_tw_video/814398061153779712/pu/vid/320x180/5-V4ltzKaWNM4B3X.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+            mList.add(ItemFactory.createItemFromAsset("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.albadiya_logo, getActivity(), mVideoPlayerManager));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

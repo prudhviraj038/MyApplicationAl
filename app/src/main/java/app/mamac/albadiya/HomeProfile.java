@@ -42,6 +42,7 @@ public class HomeProfile extends Fragment implements AbsListView.OnScrollListene
     HomeProfileAdapter homeProfileAdapter;
     ArrayList<String> title;
     ArrayList<Integer> image;
+
     ArrayList<Posts> postsfrom_api;
     ImageView settings;
     ImageView chat_item;
@@ -158,6 +159,7 @@ public class HomeProfile extends Fragment implements AbsListView.OnScrollListene
                 //Toast.makeText(getActivity(),title.get(position),Toast.LENGTH_SHORT).show();
             }
         });
+
         get_posts();
         return view;
     }

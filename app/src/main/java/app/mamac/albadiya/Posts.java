@@ -1,13 +1,20 @@
 package app.mamac.albadiya;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
 import com.volokh.danylo.visibility_utils.items.ListItem;
 
+import java.io.IOException;
 import java.io.Serializable;
+
+import app.mamac.albadiya.video_list_demo.adapter.items.BaseVideoItem;
+import app.mamac.albadiya.video_list_demo.adapter.items.ItemFactory;
 
 
 /**
@@ -17,13 +24,20 @@ import java.io.Serializable;
 public class Posts implements Serializable,ListItem {
 
     public String id,title,title_ar,image,video,description,description_ar,member_like,total_likes,total_views,user_image,user_id,user_name,time;
+    public BaseVideoItem videoItem;
 
-    public Posts(JsonObject jsonObject,Context context){
+    public Posts(JsonObject jsonObject, Context context){
+
+    }
+    public Posts(JsonObject jsonObject, Context context, Activity activity, VideoPlayerManager<MetaData> playerManager){
         id = jsonObject.get("id").getAsString();
         title = jsonObject.get("title").getAsString();
         title_ar = jsonObject.get("title_ar").getAsString();
         image = jsonObject.get("image").getAsString();
-        video = jsonObject.get("video").getAsString();
+
+        //video = jsonObject.get("video").getAsString();
+        video = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
+
         description = jsonObject.get("description").getAsString();
         description_ar = jsonObject.get("description_ar").getAsString();
         if(jsonObject.has("member_like"))
@@ -56,6 +70,13 @@ public class Posts implements Serializable,ListItem {
         }
 
         time = jsonObject.get("time").getAsString();
+        try {
+            videoItem = ItemFactory.createItemFromAsset(video,user_image,activity,playerManager);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
